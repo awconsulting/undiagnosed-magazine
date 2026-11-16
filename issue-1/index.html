@@ -17,9 +17,12 @@
 html,body{margin:0;height:100%;background:#F2F2F4;color:#0B0B0C;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
 body{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
 header{flex:none;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;padding-top:env(safe-area-inset-top);background:#0B0B0C}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#FFFFFF;font-weight:800;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
-@media (max-width:440px){.brand{font-size:13px;letter-spacing:.1em}.brand .mg{display:none}a.hbtn{display:none !important}.hbtn{padding:0 13px}}
-.brand i{width:9px;height:9px;border-radius:50%;background:#D70015;display:block}
+.brand{display:flex;flex-direction:column;justify-content:center;gap:3px;text-decoration:none;color:#FFFFFF;white-space:nowrap;text-transform:none;letter-spacing:0}
+.brand .wm{font:800 22px/1 Inter,-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.035em}
+.brand .wm em{font-style:normal;color:#D70015}
+.brand .mg{font-weight:600;color:rgba(255,255,255,.62);letter-spacing:-.02em}
+.brand small{font:700 11px/1 Inter,sans-serif;color:rgba(255,255,255,.55);letter-spacing:.02em}
+@media (max-width:440px){.brand .wm{font-size:20px}.brand .mg{display:none}a.hbtn{display:none !important}.hbtn{padding:0 13px}}
 .hbtn{appearance:none;border:1px solid #E4E4E9;background:#FFFFFF;color:#0B0B0C;height:40px;padding:0 16px;border-radius:999px;font:700 14px Inter,sans-serif;cursor:pointer;white-space:nowrap}
 .hbtn:hover{border-color:#0B0B0C}
 header .hbtn{background:transparent;color:#FFFFFF;border-color:rgba(255,255,255,.35)}
@@ -126,11 +129,24 @@ footer{gap:12px}
 #stkTray .sw button{appearance:none;width:44px;height:44px;border-radius:10px 10px 10px 4px;border:2px solid rgba(0,0,0,.08);cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.15)}
 #stkTray .sw button:hover{transform:translateY(-2px)}
 .fbtn .sq{width:18px;height:18px;border-radius:3px 3px 3px 7px;background:#FFE45C;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.35)}
+
+/* zoom */
+#zv{position:absolute;inset:0;z-index:5;background:#F2F2F4;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;display:none;overscroll-behavior:contain}
+#zv.open{display:block}
+#zv .zin{display:flex;gap:8px;padding:16px;width:max-content;min-width:100%;justify-content:center;transform-origin:0 0}
+.zctl{position:absolute;right:12px;top:12px;z-index:6;display:none;align-items:center;gap:4px;background:#FFFFFF;border:1px solid #E4E4E9;border-radius:999px;padding:4px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.zctl.open{display:flex}
+.zctl button{appearance:none;border:0;background:none;min-width:40px;height:40px;border-radius:999px;font:800 20px/1 Inter,sans-serif;color:#0B0B0C;cursor:pointer;padding:0 10px;white-space:nowrap}
+.zctl button:hover{background:#F2F2F4}
+.zctl .zl{font:800 14px Inter,sans-serif;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.zctl .zd{background:#0B0B0C;color:#FFFFFF;font-size:14px;padding:0 16px}
+.zctl .zd:hover{background:#2C2C2E}
+.fbtn.on{background:#0B0B0C;color:#FFFFFF;border-color:#0B0B0C}
 </style>
 </head>
 <body>
 <header>
-  <a class="brand" href="/"><i></i>Undiagnosed<span class="mg">&nbsp;Magazine</span></a>
+  <a class="brand" href="/"><span class="wm">undiagnosed<em>*</em><span class="mg"> magazine</span></span><small>*for now</small></a>
   <div style="display:flex;gap:8px">
     <button class="hbtn" id="openNotes" type="button">Notes</button>
     <button class="hbtn" id="openToc" type="button">Contents</button>
@@ -141,10 +157,13 @@ footer{gap:12px}
   <div id="track"></div>
   <button class="nav" id="prev" type="button" aria-label="Previous page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#0B0B0C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <button class="nav" id="next" type="button" aria-label="Next page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="#0B0B0C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <div id="hint">Swipe to turn the page</div>
+  <div id="zv" aria-label="Zoomed page"><div class="zin" id="zin"></div></div>
+  <div class="zctl" id="zctl" role="group" aria-label="Zoom"><button type="button" id="zout" aria-label="Zoom out">−</button><span class="zl" id="zlvl">200%</span><button type="button" id="zinb" aria-label="Zoom in">+</button><button type="button" class="zd" id="zdone">Done</button></div>
+  <div id="hint">Swipe to turn the page. Pinch or double tap to zoom.</div>
 </main>
 <footer>
   <button class="fbtn" id="openPages" type="button" aria-label="See all pages"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="15" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="15" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Pages</span></button>
+  <button class="fbtn" id="openZoom" type="button" aria-label="Zoom in to read"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Zoom</span></button>
   <button class="fbtn" id="openStk" type="button" aria-label="Add a sticky note"><i class="sq"></i><span>Sticky note</span></button>
   <div class="pager">
     <button class="arrow" id="fprev" type="button" aria-label="Previous page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -257,6 +276,7 @@ function ui(){
   markThumbs();
 }
 function go(dir){
+  if(Z>1){var t2=step(dir);if(t2!==null){cur=t2;buildZoom(true);ui()}return}
   if(busy)return; var t=step(dir); if(t===null){snap();return}
   busy=true;
   track.style.transition='transform .32s cubic-bezier(.2,.7,.2,1)';
@@ -271,7 +291,7 @@ function go(dir){
   },330);
 }
 function snap(){track.style.transition='transform .25s ease';track.style.transform='translateX(-33.3333%)'}
-function jump(n){n=Math.max(1,Math.min(N,n|0));cur=n;render();}
+function jump(n){n=Math.max(1,Math.min(N,n|0));cur=n;render();if(Z>1)buildZoom(true);}
 window.addEventListener('message',function(e){if(e.data&&e.data.goto){jump(e.data.goto)}});
 document.getElementById('prev').onclick=function(){go(-1)};
 document.getElementById('next').onclick=function(){go(1)};
@@ -281,7 +301,9 @@ document.addEventListener('keydown',function(e){
   var tg=(e.target&&e.target.tagName)||''; if(tg==='TEXTAREA'||tg==='INPUT'){if(e.key==='Escape'){closeNotes()}return}
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1)}
   else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}
-  else if(e.key==='Escape'){closeToc();closeNotes();closePages()}
+  else if(e.key==='Escape'){if(Z>1){closeZoom();return}closeToc();closeNotes();closePages()}
+  else if(e.key==='+'||e.key==='='){openZoom(Z>1?Z+.5:2)}
+  else if(e.key==='-'&&Z>1){setZoom(Z-.5)}
 });
 // swipe: listen on the stage and inside each same-origin page
 var sx=0,sy=0,dx=0,dragging=false,locked=null;
@@ -295,14 +317,18 @@ function tEnd(){
   if(!dragging)return; dragging=false;
   if(locked==='x'){ var th=Math.min(90,stage.clientWidth*.18); if(dx<-th)go(1); else if(dx>th)go(-1); else snap(); }
 }
+var pinch=null, lastTap=0;
 function bind(t){
-  t.addEventListener('touchstart',function(e){var p=e.touches[0];tStart(p.clientX,p.clientY)},{passive:true});
+  t.addEventListener('touchstart',function(e){if(e.touches.length===2){dragging=false;snap();pinch={d:tdist(e.touches)};return}var p=e.touches[0];tStart(p.clientX,p.clientY)},{passive:true});
+  t.addEventListener('touchmove',function(e){if(pinch&&e.touches.length===2){if(e.cancelable)e.preventDefault();if(tdist(e.touches)/pinch.d>1.12){pinch=null;openZoom(2)}}},{passive:false});
+  t.addEventListener('touchend',function(e){if(pinch){if(!e.touches.length)pinch=null;return}if(e.changedTouches.length===1&&Math.abs(dx)<10&&locked===null){var now=Date.now();if(now-lastTap<320){lastTap=0;openZoom(2)}else lastTap=now}});
   t.addEventListener('touchmove',function(e){var p=e.touches[0];tMove(p.clientX,p.clientY,e)},{passive:false});
   t.addEventListener('touchend',tEnd);t.addEventListener('touchcancel',tEnd);
 }
 bind(stage);
 function hookFrame(f){
-  try{ var d=f.contentDocument; if(!d||d.__hooked)return; d.__hooked=true; bind(d);
+  try{ var d=f.contentDocument; if(!d||d.__hooked)return; d.__hooked=true; if(!f.closest('#zv'))bind(d); else bindZoomDoc(d);
+    if(!f.closest('#zv'))d.addEventListener('dblclick',function(e){var sel=d.getSelection&&d.getSelection();if(sel)sel.removeAllRanges();openZoom(2)});
     var sel=function(){var t=(d.getSelection()||'').toString().trim(); pending=t?{text:t.slice(0,1200),page:parseInt(f.title.replace('Page ',''),10)}:null; document.getElementById('savebar').classList.toggle('show',!!pending)};
     d.addEventListener('selectionchange',sel); d.addEventListener('mouseup',sel); d.addEventListener('touchend',function(){setTimeout(sel,50)});
     d.addEventListener('keydown',function(e){if(['ArrowRight','ArrowLeft','PageDown','PageUp',' '].indexOf(e.key)>-1){e.preventDefault();go(e.key==='ArrowLeft'||e.key==='PageUp'?-1:1)}});
@@ -413,6 +439,37 @@ document.getElementById('saveSel').onclick=function(){
   if(!pending)return; notes.push({id:Date.now()+'',page:pending.page||view(cur)[0],text:'',quote:pending.text,t:Date.now()}); persist();
   pending=null; document.getElementById('savebar').classList.remove('show'); render(); toast('Saved to your notes');
 };
+
+// ---- zoom ----
+var Z=1, zv=document.getElementById('zv'), zin=document.getElementById('zin'), zctl=document.getElementById('zctl');
+function tdist(t){var a=t[0],b=t[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}
+function zBase(){var aw=stage.clientWidth-32, ah=stage.clientHeight-32, v=view(cur);return Math.min((aw-8*(v.length-1))/(W*v.length),ah/H)}
+function sizeWrap(w,s){var pg=w.querySelector('.pg'),pw=Math.round(W*s);pg.style.width=pw+'px';pg.style.height=Math.round(H*s)+'px';pg.querySelector('iframe').style.transform='scale('+s+')';
+  w.querySelectorAll('.stk').forEach(function(el){var sw=Math.max(160,Math.round(pw*.34));el.style.width=sw+'px';el.style.height=Math.round(sw*.92)+'px';el.style.setProperty('--fs',Math.max(16,Math.round(sw/12))+'px')})}
+function buildZoom(top){zin.innerHTML='';var s=zBase()*Z;view(cur).forEach(function(p){zin.appendChild(makePage(p,s))});if(top){zv.scrollTop=0;zv.scrollLeft=0}}
+function zLabel(){document.getElementById('zlvl').textContent=Math.round(Z*100)+'%';document.getElementById('openZoom').classList.toggle('on',Z>1)}
+function openZoom(z){z=Math.max(1.5,Math.min(4,z||2));if(Z>1){setZoom(z);return}Z=z;buildZoom(false);zv.classList.add('open');zctl.classList.add('open');document.getElementById('hint').style.opacity=0;
+  requestAnimationFrame(function(){zv.scrollLeft=0;zv.scrollTop=Math.max(0,(zin.scrollHeight-zv.clientHeight)*.08)});zLabel()}
+function setZoom(z,cx,cy){z=Math.round(Math.max(1,Math.min(4,z))*100)/100;if(z<=1.05){closeZoom();return}
+  if(cx===undefined){cx=zv.clientWidth/2;cy=zv.clientHeight/2}
+  var fx=(zv.scrollLeft+cx)/zin.scrollWidth, fy=(zv.scrollTop+cy)/zin.scrollHeight;
+  Z=z;var s=zBase()*Z;zin.querySelectorAll('.pgw').forEach(function(w){sizeWrap(w,s)});
+  zv.scrollLeft=fx*zin.scrollWidth-cx;zv.scrollTop=fy*zin.scrollHeight-cy;zLabel()}
+function closeZoom(){Z=1;zv.classList.remove('open');zctl.classList.remove('open');zin.innerHTML='';zLabel();render()}
+document.getElementById('openZoom').onclick=function(){if(Z>1)closeZoom();else openZoom(2)};
+document.getElementById('zinb').onclick=function(){setZoom(Z+.5)};
+document.getElementById('zout').onclick=function(){setZoom(Z-.5)};
+document.getElementById('zdone').onclick=closeZoom;
+// pinch inside the zoomed view
+var zp=null;
+function zStart(e){if(e.touches.length===2){var r=zv.getBoundingClientRect();zp={d:tdist(e.touches),z:Z,cx:(e.touches[0].clientX+e.touches[1].clientX)/2-r.left,cy:(e.touches[0].clientY+e.touches[1].clientY)/2-r.top};zin.style.transformOrigin=(zv.scrollLeft+zp.cx)+'px '+(zv.scrollTop+zp.cy)+'px'}}
+function zMove(e){if(zp&&e.touches.length===2){if(e.cancelable)e.preventDefault();var k=tdist(e.touches)/zp.d;k=Math.max(1/zp.z,Math.min(4/zp.z,k));zin.style.transform='scale('+k+')';zp.k=k}}
+function zEnd(e){if(zp&&e.touches.length<2){var k=zp.k||1,p=zp;zp=null;zin.style.transform='';if(Math.abs(k-1)>.04)setZoom(p.z*k,p.cx,p.cy)}}
+function bindZoomDoc(t){t.addEventListener('touchstart',zStart,{passive:true});t.addEventListener('touchmove',zMove,{passive:false});t.addEventListener('touchend',zEnd);t.addEventListener('touchcancel',zEnd);
+  var lt=0;t.addEventListener('touchend',function(e){if(e.touches.length||e.changedTouches.length!==1)return;var n=Date.now();if(n-lt<320){lt=0;setZoom(Z>=3?Z-1:Z+1)}else lt=n});
+  t.addEventListener('dblclick',function(){setZoom(Z>=3?1:Z+1)})}
+bindZoomDoc(zv);
+zv.addEventListener('wheel',function(e){if(e.ctrlKey){e.preventDefault();var r=zv.getBoundingClientRect();setZoom(Z*(e.deltaY<0?1.1:.9),e.clientX-r.left,e.clientY-r.top)}},{passive:false});
 // footer arrows + view mode
 document.getElementById('fprev').onclick=function(){go(-1)};
 document.getElementById('fnext').onclick=function(){go(1)};
@@ -462,7 +519,7 @@ fetch(BASE+'manifest.json').then(function(r){return r.json()}).then(function(m){
 var start=parseInt(location.hash.slice(1),10);
 cur=(start>=1&&start<=N)?start:1;
 render();markSeg();
-var rt; window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){render();markSeg();sizeThumbs()},150)});
+var rt; window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){render();markSeg();sizeThumbs();if(Z>1)setZoom(Z)},150)});
 setTimeout(function(){document.getElementById('hint').style.opacity=0},2600);
 })();
 </script>
