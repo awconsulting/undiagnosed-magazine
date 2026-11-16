@@ -68,6 +68,10 @@ input[type=range]{flex:1;accent-color:#D70015;height:28px}
 .note .acts{display:flex;gap:6px;margin-top:12px;flex-wrap:nowrap;overflow-x:auto}
 .note .acts button{appearance:none;border:1px solid #E4E4E9;background:#FFFFFF;border-radius:999px;height:34px;padding:0 12px;font:700 13px Inter,sans-serif;color:#0B0B0C;cursor:pointer;white-space:nowrap}
 .note .acts button:hover{border-color:#0B0B0C}
+.note .acts.mail{margin-top:8px;padding-top:10px;border-top:1px dashed #E4E4E9}
+.note .acts.mail[hidden]{display:none}
+.note .acts.mail button{background:#F4F4F6}
+.note .acts button.warn{background:#D70015;border-color:#D70015;color:#FFFFFF}
 #savebar{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:9;display:none}
 #savebar.show{display:block}
 #savebar button{box-shadow:0 6px 20px rgba(0,0,0,.25)}
@@ -158,6 +162,7 @@ footer{gap:12px}
 <div id="savebar"><button class="btnr" id="saveSel" type="button">Save highlight to notes</button></div>
 <div id="toast"></div>
 <script>
+
 (function(){
 var N=162, W=1080, H=1440, cur=1, spread=false, slots=[], busy=false;
 var track=document.getElementById('track'), stage=document.getElementById('stage');
@@ -283,6 +288,9 @@ function persist(){try{localStorage.setItem(KEY,JSON.stringify(notes))}catch(e){
 function notesOn(n){return notes.filter(function(x){return x.page===n}).length}
 var notesEl=document.getElementById('notes');
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;clearTimeout(t._h);t._h=setTimeout(function(){t.style.opacity=0},1800)}
+function copyText(t,msg){function fb(){var a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.cssText='position:fixed;top:-1000px;opacity:0';document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(a);toast(ok?msg:'Select the note text to copy it')}
+if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){toast(msg)},fb)}else fb()}
+function openMail(u){var w=null;try{w=window.open(u,'_blank')}catch(e){}if(!w){try{window.top.location.href=u}catch(e){location.href=u}}}
 function openNotes(){document.getElementById('noteLabel').textContent='Add a note to page '+view(cur)[0];renderNotes();notesEl.classList.add('open');notesEl.setAttribute('aria-hidden','false')}
 function closeNotes(){notesEl.classList.remove('open');notesEl.setAttribute('aria-hidden','true')}
 function pageUrl(n){return location.origin+location.pathname+'#'+n}
@@ -292,17 +300,24 @@ function renderNotes(){
   if(!notes.length){var e=document.createElement('div');e.className='empty';e.textContent='No notes yet. Write one above, or highlight a line on any page and tap “Save highlight to notes.”';box.appendChild(e);return}
   notes.slice().sort(function(a,b){return a.page-b.page||a.t-b.t}).forEach(function(x){
     var c=document.createElement('div');c.className='note';
-    var pl=document.createElement('button');pl.type='button';pl.className='pgl';pl.textContent='Page '+x.page;pl.onclick=function(){closeNotes();jump(x.page)};c.appendChild(pl);
+    var pl=document.createElement('button');pl.type='button';pl.className='pgl';pl.textContent='Page '+x.page+' →';pl.title='Go to page '+x.page;pl.onclick=function(){closeNotes();jump(x.page)};c.appendChild(pl);
     if(x.quote){var q=document.createElement('blockquote');q.textContent=x.quote;c.appendChild(q)}
     if(x.text){var p=document.createElement('p');p.textContent=x.text;c.appendChild(p)}
     var a=document.createElement('div');a.className='acts';
     function btn(l,fn){var b=document.createElement('button');b.type='button';b.textContent=l;b.onclick=fn;a.appendChild(b)}
-    btn('Go to page',function(){closeNotes();jump(x.page)});
-    btn('Copy',function(){var t=noteText(x);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('Copied')},function(){prompt('Copy this:',t)})});
-    if(navigator.share){btn('Send',function(){navigator.share({title:'Undiagnosed Magazine',text:noteText(x)}).catch(function(){})})}
-    btn('Email myself',function(){location.href='mailto:?subject='+encodeURIComponent('My note from Undiagnosed Magazine, page '+x.page)+'&body='+encodeURIComponent(noteText(x))});
-    btn('Delete',function(){if(confirm('Delete this note?')){notes=notes.filter(function(y){return y!==x});persist();renderNotes();render()}});
-    c.appendChild(a);box.appendChild(c);
+    btn('Copy',function(){copyText(noteText(x),'Copied')});
+    btn('Send',function(){var t=noteText(x);if(navigator.share){navigator.share({title:'Undiagnosed Magazine',text:t}).catch(function(e){if(!e||e.name!=='AbortError')copyText(t,'Copied. Paste it into a text or DM.')})}else{copyText(t,'Copied. Paste it into a text or DM.')}});
+    var em=document.createElement('div');em.className='acts mail';em.hidden=true;
+    btn('Email myself',function(){em.hidden=!em.hidden;if(!em.hidden)em.scrollIntoView({block:'nearest',behavior:'smooth'})});
+    btn('Delete',function(){var b=this;if(b.dataset.arm){notes=notes.filter(function(y){return y!==x});persist();renderNotes();render();toast('Note deleted');return}
+      b.dataset.arm='1';b.textContent='Tap again to delete';b.classList.add('warn');setTimeout(function(){if(b.isConnected){delete b.dataset.arm;b.textContent='Delete';b.classList.remove('warn')}},3000)});
+    var subj='My note from Undiagnosed Magazine, page '+x.page, body=noteText(x);
+    function mb(l,fn){var b=document.createElement('button');b.type='button';b.textContent=l;b.onclick=fn;em.appendChild(b)}
+    mb('Gmail',function(){window.open('https://mail.google.com/mail/?view=cm&fs=1&su='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body),'_blank','noopener')});
+    mb('Outlook',function(){window.open('https://outlook.live.com/mail/0/deeplink/compose?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body),'_blank','noopener')});
+    mb('Yahoo',function(){window.open('https://compose.mail.yahoo.com/?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body),'_blank','noopener')});
+    mb('Mail app',function(){openMail('mailto:?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body))});
+    c.appendChild(a);c.appendChild(em);box.appendChild(c);
   });
 }
 document.getElementById('openNotes').onclick=openNotes;
