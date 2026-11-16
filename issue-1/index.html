@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Undiagnosed Magazine</title>
+<meta name="description" content="A free digital magazine for the undiagnosed and the chronically ill. Read it right here, no download, no email.">
+<meta property="og:title" content="Undiagnosed, Issue One">
+<meta property="og:description" content="Still Here, Still Undiagnosed. Read it free, right in your browser.">
+<meta property="og:image" content="https://undiagnosedmagazine.com/assets/cover.jpg">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#F2F2F4;color:#0B0B0C;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+body{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+header{flex:none;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;padding-top:env(safe-area-inset-top);background:#0B0B0C}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#FFFFFF;font-weight:800;font-size:15px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+@media (max-width:440px){.brand{font-size:13px;letter-spacing:.1em}a.hbtn{display:none !important}}
+.brand i{width:9px;height:9px;border-radius:50%;background:#D70015;display:block}
+.hbtn{appearance:none;border:1px solid #E4E4E9;background:#FFFFFF;color:#0B0B0C;height:40px;padding:0 16px;border-radius:999px;font:700 14px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+.hbtn:hover{border-color:#0B0B0C}
+header .hbtn{background:transparent;color:#FFFFFF;border-color:rgba(255,255,255,.35)}
+header .hbtn:hover{border-color:#FFFFFF}
+main{position:relative;flex:1 1 auto;overflow:hidden;touch-action:pan-y}
+#track{position:absolute;inset:0;display:flex;will-change:transform}
+.slot{flex:none;width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:var(--gap)}
+.pg{position:relative;flex:none;overflow:hidden;background:#FFFFFF;box-shadow:0 2px 14px rgba(0,0,0,.10);border-radius:4px}
+.pg iframe{position:absolute;left:0;top:0;width:1080px;height:1440px;border:0;transform-origin:0 0;background:#FFFFFF}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid #E4E4E9;background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.nav:hover{border-color:#0B0B0C}
+.nav[disabled]{opacity:.3;cursor:default}
+#prev{left:12px}#next{right:12px}
+@media (max-width:700px){.nav{display:none}}
+footer{flex:none;background:#FFFFFF;border-top:1px solid #E4E4E9;padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:14px}
+#count{font-weight:700;font-size:14px;min-width:78px;white-space:nowrap;font-variant-numeric:tabular-nums}
+input[type=range]{flex:1;accent-color:#D70015;height:28px}
+#hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:#0B0B0C;color:#FFFFFF;font-weight:600;font-size:14px;padding:10px 16px;border-radius:999px;white-space:nowrap;z-index:4;transition:opacity .5s;pointer-events:none}
+#toc{position:fixed;inset:0;z-index:10;background:rgba(11,11,12,.35);display:none}
+#toc.open{display:block}
+#toc .sheet{position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);background:#FFFFFF;overflow:auto;padding:22px 22px calc(22px + env(safe-area-inset-bottom));box-shadow:-6px 0 30px rgba(0,0,0,.12)}
+#toc h2{margin:0 0 4px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#D70015}
+#toc .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+#toc button.row{appearance:none;display:flex;gap:16px;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid #E4E4E9;padding:15px 2px;cursor:pointer;font:600 17px/1.3 Inter,sans-serif;color:#0B0B0C}
+#toc button.row:hover{color:#D70015}
+#toc button.row span{flex:none;width:34px;font-weight:800;color:#D70015;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="/"><i></i>Undiagnosed Magazine</a>
+  <div style="display:flex;gap:8px">
+    <button class="hbtn" id="openToc" type="button">Contents</button>
+    <a class="hbtn" href="/" style="display:inline-flex;align-items:center;text-decoration:none">Home</a>
+  </div>
+</header>
+<main id="stage">
+  <div id="track"></div>
+  <button class="nav" id="prev" type="button" aria-label="Previous page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#0B0B0C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nav" id="next" type="button" aria-label="Next page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="#0B0B0C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div id="hint">Swipe to turn the page</div>
+</main>
+<footer>
+  <span id="count">1 / 162</span>
+  <label for="scrub" style="position:absolute;left:-9999px">Go to page</label>
+  <input type="range" id="scrub" min="1" max="162" value="1">
+</footer>
+<div id="toc" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-label="Contents">
+    <div class="top"><h2>Issue One · Contents</h2><button class="hbtn" id="closeToc" type="button">Close</button></div>
+    <div id="tocList"></div>
+  </div>
+</div>
+<script>
+(function(){
+var N=162, W=1080, H=1440, cur=1, spread=false, slots=[], busy=false;
+var track=document.getElementById('track'), stage=document.getElementById('stage');
+var countEl=document.getElementById('count'), scrub=document.getElementById('scrub');
+function pad(n){return ('00'+n).slice(-3)}
+function url(n){return 'p/'+pad(n)+'.html'}
+function isSpread(){return stage.clientWidth>=900 && stage.clientWidth/stage.clientHeight>1.25}
+// which pages make the view that contains page n
+function view(n){
+  if(!spread) return [n];
+  if(n<=1) return [1];
+  if(n>=N) return [N];
+  var a=(n%2===0)?n:n-1; var b=a+1;
+  return b>=N?[a]:[a,b];
+}
+function step(dir){
+  var v=view(cur);
+  if(dir>0){var last=v[v.length-1]; return last<N?last+1:null}
+  var first=v[0]; return first>1?first-1:null;
+}
+function scale(){
+  var pad=spread?28:14, gap=spread?6:0;
+  var aw=stage.clientWidth-pad*2, ah=stage.clientHeight-pad*2;
+  var cols=spread?2:1;
+  return Math.min((aw-gap*(cols-1))/(W*cols), ah/H);
+}
+function makePage(n,s){
+  var d=document.createElement('div'); d.className='pg';
+  d.style.width=Math.round(W*s)+'px'; d.style.height=Math.round(H*s)+'px';
+  var f=document.createElement('iframe'); f.title='Page '+n; f.loading='eager';
+  f.style.transform='scale('+s+')'; f.src=url(n);
+  f.addEventListener('load',function(){hookFrame(f)});
+  d.appendChild(f); return d;
+}
+function makeSlot(n){
+  var s=scale(); var el=document.createElement('div'); el.className='slot';
+  el.style.setProperty('--gap',(spread?6:0)+'px');
+  if(n!==null){view(n).forEach(function(p){el.appendChild(makePage(p,s))})}
+  return el;
+}
+function render(){
+  spread=isSpread();
+  track.style.transition='none';
+  track.innerHTML='';
+  var p=step(-1), nx=step(1);
+  slots=[makeSlot(p),makeSlot(cur),makeSlot(nx)];
+  slots.forEach(function(sl){track.appendChild(sl)});
+  track.style.width='300%';
+  slots.forEach(function(sl){sl.style.width=(100/3)+'%'});
+  track.style.transform='translateX(-33.3333%)';
+  ui();
+}
+function ui(){
+  var v=view(cur);
+  countEl.textContent=(v.length>1?v[0]+'–'+v[1]:v[0])+' / '+N;
+  scrub.value=cur;
+  document.getElementById('prev').disabled=step(-1)===null;
+  document.getElementById('next').disabled=step(1)===null;
+  try{history.replaceState(null,'','#'+cur);localStorage.setItem('und-issue1-page',cur)}catch(e){}
+}
+function go(dir){
+  if(busy)return; var t=step(dir); if(t===null){snap();return}
+  busy=true;
+  track.style.transition='transform .32s cubic-bezier(.2,.7,.2,1)';
+  track.style.transform='translateX('+(dir>0?'-66.6667%':'0%')+')';
+  setTimeout(function(){
+    cur=t;
+    track.style.transition='none';
+    if(dir>0){ track.removeChild(slots[0]); slots.shift(); var nx=step(1); var sl=makeSlot(nx); sl.style.width=(100/3)+'%'; track.appendChild(sl); slots.push(sl); }
+    else { track.removeChild(slots[2]); slots.pop(); var p=step(-1); var sl=makeSlot(p); sl.style.width=(100/3)+'%'; track.insertBefore(sl,track.firstChild); slots.unshift(sl); }
+    track.style.transform='translateX(-33.3333%)';
+    busy=false; ui();
+  },330);
+}
+function snap(){track.style.transition='transform .25s ease';track.style.transform='translateX(-33.3333%)'}
+function jump(n){n=Math.max(1,Math.min(N,n|0));cur=n;render();}
+window.addEventListener('message',function(e){if(e.data&&e.data.goto){jump(e.data.goto)}});
+document.getElementById('prev').onclick=function(){go(-1)};
+document.getElementById('next').onclick=function(){go(1)};
+scrub.addEventListener('input',function(){countEl.textContent=scrub.value+' / '+N});
+scrub.addEventListener('change',function(){jump(+scrub.value)});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1)}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}
+  else if(e.key==='Escape'){closeToc()}
+});
+// swipe: listen on the stage and inside each same-origin page
+var sx=0,sy=0,dx=0,dragging=false,locked=null;
+function tStart(x,y){if(busy)return;sx=x;sy=y;dx=0;dragging=true;locked=null;track.style.transition='none'}
+function tMove(x,y,ev){
+  if(!dragging)return; dx=x-sx; var dy=y-sy;
+  if(locked===null&&(Math.abs(dx)>8||Math.abs(dy)>8)){locked=Math.abs(dx)>Math.abs(dy)?'x':'y'}
+  if(locked==='x'){ if(ev&&ev.cancelable)ev.preventDefault(); var w=stage.clientWidth; track.style.transform='translateX(calc(-33.3333% + '+dx+'px))'; }
+}
+function tEnd(){
+  if(!dragging)return; dragging=false;
+  if(locked==='x'){ var th=Math.min(90,stage.clientWidth*.18); if(dx<-th)go(1); else if(dx>th)go(-1); else snap(); }
+}
+function bind(t){
+  t.addEventListener('touchstart',function(e){var p=e.touches[0];tStart(p.clientX,p.clientY)},{passive:true});
+  t.addEventListener('touchmove',function(e){var p=e.touches[0];tMove(p.clientX,p.clientY,e)},{passive:false});
+  t.addEventListener('touchend',tEnd);t.addEventListener('touchcancel',tEnd);
+}
+bind(stage);
+function hookFrame(f){
+  try{ var d=f.contentDocument; if(!d||d.__hooked)return; d.__hooked=true; bind(d);
+    d.addEventListener('keydown',function(e){if(['ArrowRight','ArrowLeft','PageDown','PageUp',' '].indexOf(e.key)>-1){e.preventDefault();go(e.key==='ArrowLeft'||e.key==='PageUp'?-1:1)}});
+  }catch(e){}
+}
+// contents
+var toc=document.getElementById('toc');
+function openToc(){toc.classList.add('open');toc.setAttribute('aria-hidden','false')}
+function closeToc(){toc.classList.remove('open');toc.setAttribute('aria-hidden','true')}
+document.getElementById('openToc').onclick=openToc;
+document.getElementById('closeToc').onclick=closeToc;
+toc.addEventListener('click',function(e){if(e.target===toc)closeToc()});
+fetch('manifest.json').then(function(r){return r.json()}).then(function(m){
+  var box=document.getElementById('tocList');
+  m.sections.forEach(function(s){
+    var b=document.createElement('button');b.type='button';b.className='row';
+    var sp=document.createElement('span');sp.textContent=s[0];b.appendChild(sp);
+    b.appendChild(document.createTextNode(s[1].replace("Editor's","Editor’s")));
+    b.onclick=function(){closeToc();jump(s[0])}; box.appendChild(b);
+  });
+});
+// start
+var start=parseInt(location.hash.slice(1),10);
+if(!start){try{start=parseInt(localStorage.getItem('und-issue1-page'),10)}catch(e){}}
+cur=(start>=1&&start<=N)?start:1;
+render();
+var rt; window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(render,150)});
+setTimeout(function(){document.getElementById('hint').style.opacity=0},2600);
+})();
+</script>
+</body>
+</html>
