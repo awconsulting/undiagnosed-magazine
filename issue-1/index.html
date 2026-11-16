@@ -62,6 +62,7 @@ input[type=range]{flex:1;accent-color:#D70015;height:28px}
 .list{flex:1;overflow:auto;padding:8px 20px calc(24px + env(safe-area-inset-bottom))}
 .empty{color:#6E6E73;font:500 15px/1.5 Inter,sans-serif;padding:18px 0}
 .note{border:1px solid #E4E4E9;border-top:4px solid #D70015;border-radius:12px;padding:14px 14px 10px;margin:14px 0;background:#FFFFFF;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.note .skind{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:4px;font:800 11px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#1C1C1E;vertical-align:1px}
 .note .pgl{appearance:none;border:0;background:none;padding:0;font:800 12px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#D70015;cursor:pointer}
 .note blockquote{margin:10px 0 0;padding:0 0 0 12px;border-left:3px solid #0B0B0C;font:500 15px/1.5 'Source Serif 4',Georgia,serif;color:#2C2C2E}
 .note p{margin:10px 0 0;font:500 15px/1.5 Inter,sans-serif;color:#0B0B0C;white-space:pre-wrap}
@@ -104,6 +105,27 @@ footer{gap:12px}
 .th iframe{position:absolute;left:0;top:0;width:1080px;height:1440px;border:0;transform-origin:0 0;pointer-events:none}
 .th .lbl{display:block;margin-top:6px}
 .th .dot{position:absolute;right:4px;top:4px;min-width:18px;height:18px;border-radius:9px;background:#D70015;color:#FFFFFF;font:800 10px/18px Inter,sans-serif;padding:0 4px;z-index:1}
+
+/* sticky notes */
+.stk-layer{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:2}
+.stk{position:absolute;pointer-events:auto;background:var(--c);border-radius:3px 3px 3px 14px;box-shadow:0 10px 22px rgba(0,0,0,.28),0 2px 4px rgba(0,0,0,.18);transform:rotate(var(--r,-1.5deg));display:flex;flex-direction:column;touch-action:none}
+.stk::after{content:"";position:absolute;left:0;bottom:0;width:18%;height:14%;max-width:26px;max-height:26px;background:linear-gradient(45deg,rgba(0,0,0,.14) 50%,transparent 50%);border-radius:0 0 0 14px}
+.stk .bar{flex:none;height:30px;display:flex;align-items:center;justify-content:flex-end;gap:4px;padding:0 4px;cursor:grab;background:rgba(0,0,0,.06);border-radius:3px 3px 0 0}
+.stk .bar:active{cursor:grabbing}
+.stk .grip{margin-right:auto;margin-left:6px;width:22px;height:10px;background:radial-gradient(circle,rgba(0,0,0,.35) 1.4px,transparent 1.6px) 0 0/6px 5px;opacity:.7}
+.stk .bar button{appearance:none;border:0;background:rgba(255,255,255,.55);width:24px;height:24px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;font:800 14px/1 Inter,sans-serif;color:#0B0B0C}
+.stk .bar button.del.warn{width:auto;padding:0 9px;border-radius:999px;background:#D70015;color:#FFFFFF;font-size:12px}
+.stk .bar .cdot{background:conic-gradient(#FFE45C 0 20%,#FF9EC7 0 40%,#8FD3FF 0 60%,#A8E6A1 0 80%,#FFB26B 0);border:2px solid rgba(255,255,255,.8)}
+.stk textarea{flex:1;width:100%;border:0;background:transparent;resize:none;padding:6px 10px 14px;font:600 var(--fs,15px)/1.35 Inter,sans-serif;color:#1C1C1E;outline:none}
+.stk textarea::placeholder{color:rgba(0,0,0,.45)}
+@media (max-width:700px){#openStk{margin-right:auto}.stk .bar{height:38px}.stk .bar button{width:32px;height:32px;font-size:17px}.stk .bar button.del.warn{font-size:13px}#stkTray{left:12px;right:12px}#stkTray .sw{justify-content:space-between}#stkTray .sw button{width:48px;height:48px}}
+#stkTray{position:fixed;left:16px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:9;background:#FFFFFF;border:1px solid #E4E4E9;border-radius:18px;padding:14px 16px;box-shadow:0 12px 34px rgba(0,0,0,.18);display:none}
+#stkTray.open{display:block}
+#stkTray p{margin:0 0 10px;font:800 13px Inter,sans-serif;white-space:nowrap}
+#stkTray .sw{display:flex;gap:10px}
+#stkTray .sw button{appearance:none;width:44px;height:44px;border-radius:10px 10px 10px 4px;border:2px solid rgba(0,0,0,.08);cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+#stkTray .sw button:hover{transform:translateY(-2px)}
+.fbtn .sq{width:18px;height:18px;border-radius:3px 3px 3px 7px;background:#FFE45C;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.35)}
 </style>
 </head>
 <body>
@@ -123,6 +145,7 @@ footer{gap:12px}
 </main>
 <footer>
   <button class="fbtn" id="openPages" type="button" aria-label="See all pages"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="15" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="15" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Pages</span></button>
+  <button class="fbtn" id="openStk" type="button" aria-label="Add a sticky note"><i class="sq"></i><span>Sticky note</span></button>
   <div class="pager">
     <button class="arrow" id="fprev" type="button" aria-label="Previous page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <span id="count">1 / 162</span>
@@ -156,9 +179,10 @@ footer{gap:12px}
       <div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btnr" id="addNote" type="button">Save note</button></div>
     </div>
     <div class="list" id="noteList"></div>
-    <div class="foot-note">Notes save on this device automatically. Tip: highlight any line in the magazine to save it here.</div>
+    <div class="foot-note">Notes and sticky notes save on this device automatically. Tip: highlight any line in the magazine to save it here.</div>
   </div>
 </div>
+<div id="stkTray" role="dialog" aria-label="Sticky note color"><p>Pick a color for your sticky note</p><div class="sw" id="stkSw"></div></div>
 <div id="savebar"><button class="btnr" id="saveSel" type="button">Save highlight to notes</button></div>
 <div id="toast"></div>
 <script>
@@ -198,7 +222,9 @@ function makePage(n,s){
   f.addEventListener('load',function(){hookFrame(f)});
   d.appendChild(f);
   var w=document.createElement('div'); w.className='pgw'; w.dataset.page=n; w.appendChild(d);
-  var c=notesOn(n); if(c){var t=document.createElement('button');t.type='button';t.className='tab';t.textContent=c;t.setAttribute('aria-label',c+' note'+(c>1?'s':'')+' on page '+n);t.onclick=function(){openNotes()};w.appendChild(t)}
+  var L=document.createElement('div'); L.className='stk-layer'; w.appendChild(L);
+  notes.forEach(function(x){if(x.kind==='sticky'&&x.page===n)L.appendChild(stickyEl(x,Math.round(W*s)))});
+  setTab(w,n);
   return w;
 }
 function makeSlot(n){
@@ -301,8 +327,9 @@ function renderNotes(){
   notes.slice().sort(function(a,b){return a.page-b.page||a.t-b.t}).forEach(function(x){
     var c=document.createElement('div');c.className='note';
     var pl=document.createElement('button');pl.type='button';pl.className='pgl';pl.textContent='Page '+x.page+' →';pl.title='Go to page '+x.page;pl.onclick=function(){closeNotes();jump(x.page)};c.appendChild(pl);
+    if(x.kind==='sticky'){c.style.borderTopColor=x.color;c.style.background='linear-gradient(#FFFFFF,#FFFFFF) padding-box';var sl=document.createElement('span');sl.className='skind';sl.style.background=x.color;sl.textContent='Sticky';pl.after(sl)}
     if(x.quote){var q=document.createElement('blockquote');q.textContent=x.quote;c.appendChild(q)}
-    if(x.text){var p=document.createElement('p');p.textContent=x.text;c.appendChild(p)}
+    if(x.text){var p=document.createElement('p');p.textContent=x.text;c.appendChild(p)}else if(x.kind==='sticky'){var p2=document.createElement('p');p2.style.color='#6E6E73';p2.textContent='Blank sticky. Tap the page number to go write on it.';c.appendChild(p2)}
     var a=document.createElement('div');a.className='acts';
     function btn(l,fn){var b=document.createElement('button');b.type='button';b.textContent=l;b.onclick=fn;a.appendChild(b)}
     btn('Copy',function(){copyText(noteText(x),'Copied')});
@@ -327,6 +354,60 @@ document.getElementById('addNote').onclick=function(){
   var ta=document.getElementById('noteText'),v=ta.value.trim(); if(!v){ta.focus();return}
   notes.push({id:Date.now()+'',page:view(cur)[0],text:v,quote:'',t:Date.now()}); persist(); ta.value=''; renderNotes(); render(); toast('Note saved');
 };
+
+var COLORS=['#FFE45C','#FF9EC7','#8FD3FF','#A8E6A1','#FFB26B'], CNAMES=['Yellow','Pink','Blue','Green','Orange'];
+function setTab(w,n){var t=w.querySelector('.tab');var c=notes.filter(function(x){return x.page===n&&x.kind!=='sticky'}).length;
+  if(!c){if(t)t.remove();return}
+  if(!t){t=document.createElement('button');t.type='button';t.className='tab';t.onclick=function(){openNotes()};w.appendChild(t)}
+  t.textContent=c;t.setAttribute('aria-label',c+' note'+(c>1?'s':'')+' on page '+n)}
+function refreshPage(n){document.querySelectorAll('.pgw[data-page="'+n+'"]').forEach(function(w){setTab(w,n)});markThumbs()}
+function stickyEl(x,pw){
+  var el=document.createElement('div');el.className='stk';el.dataset.id=x.id;
+  var sw=Math.max(160,Math.round(pw*.34)), sh=Math.round(sw*.92);
+  el.style.width=sw+'px';el.style.height=sh+'px';el.style.left=(x.x*100)+'%';el.style.top=(x.y*100)+'%';
+  el.style.setProperty('--c',x.color);el.style.setProperty('--r',(x.rot||-1.5)+'deg');el.style.setProperty('--fs',Math.max(16,Math.round(sw/12))+'px');
+  var bar=document.createElement('div');bar.className='bar';
+  var grip=document.createElement('span');grip.className='grip';bar.appendChild(grip);
+  var cb=document.createElement('button');cb.type='button';cb.className='cdot';cb.title='Change color';cb.setAttribute('aria-label','Change color');
+  cb.onclick=function(){var i=(COLORS.indexOf(x.color)+1)%COLORS.length;x.color=COLORS[i];persist();syncSticky(x)};bar.appendChild(cb);
+  var db=document.createElement('button');db.type='button';db.className='del';db.textContent='×';db.setAttribute('aria-label','Delete sticky note');
+  db.onclick=function(){if(x.text.trim()&&!db.dataset.arm){db.dataset.arm='1';db.textContent='Delete?';db.classList.add('warn');setTimeout(function(){if(db.isConnected){delete db.dataset.arm;db.textContent='×';db.classList.remove('warn')}},3000);return}
+    notes=notes.filter(function(y){return y!==x});persist();document.querySelectorAll('.stk[data-id="'+x.id+'"]').forEach(function(e){e.remove()});refreshPage(x.page);if(notesEl.classList.contains('open'))renderNotes()};
+  bar.appendChild(db);el.appendChild(bar);
+  var ta=document.createElement('textarea');ta.value=x.text||'';ta.placeholder='Write your note…';ta.setAttribute('aria-label','Sticky note on page '+x.page);
+  ta.addEventListener('input',function(){x.text=ta.value;x.t=Date.now();persist()});el.appendChild(ta);
+  // keep page swipes from firing while using the sticky
+  ['touchstart','touchmove','touchend'].forEach(function(ev){el.addEventListener(ev,function(e){e.stopPropagation()},{passive:true})});
+  // drag by the top bar
+  bar.addEventListener('pointerdown',function(e){
+    if(e.target.closest('button'))return; e.preventDefault();
+    var layer=el.parentNode, r=layer.getBoundingClientRect(), ox=e.clientX-el.offsetLeft*(r.width/layer.offsetWidth)-r.left, oy=e.clientY-el.offsetTop*(r.height/layer.offsetHeight)-r.top;
+    bar.setPointerCapture(e.pointerId);
+    function mv(ev){var nx=(ev.clientX-r.left-ox)/r.width, ny=(ev.clientY-r.top-oy)/r.height;
+      nx=Math.max(-.04,Math.min(1-el.offsetWidth/layer.offsetWidth+.04,nx));ny=Math.max(0,Math.min(1-el.offsetHeight/layer.offsetHeight,ny));
+      x.x=nx;x.y=ny;el.style.left=(nx*100)+'%';el.style.top=(ny*100)+'%'}
+    function up(){bar.removeEventListener('pointermove',mv);bar.removeEventListener('pointerup',up);bar.removeEventListener('pointercancel',up);persist()}
+    bar.addEventListener('pointermove',mv);bar.addEventListener('pointerup',up);bar.addEventListener('pointercancel',up);
+  });
+  return el;
+}
+function syncSticky(x){document.querySelectorAll('.stk[data-id="'+x.id+'"]').forEach(function(e){e.style.setProperty('--c',x.color)})}
+var tray=document.getElementById('stkTray'), swBox=document.getElementById('stkSw');
+COLORS.forEach(function(c,i){var b=document.createElement('button');b.type='button';b.style.background=c;b.title=CNAMES[i];b.setAttribute('aria-label',CNAMES[i]+' sticky note');b.onclick=function(){addSticky(c)};swBox.appendChild(b)});
+document.getElementById('openStk').onclick=function(e){e.stopPropagation();tray.classList.toggle('open')};
+document.addEventListener('click',function(e){if(tray.classList.contains('open')&&!tray.contains(e.target))tray.classList.remove('open')});
+function addSticky(color){
+  tray.classList.remove('open');
+  var v=view(cur), n=v[v.length-1];
+  var w=slots[1]&&slots[1].querySelector('.pgw[data-page="'+n+'"]'); if(!w)return;
+  var L=w.querySelector('.stk-layer'), pw=w.offsetWidth;
+  var sw=Math.max(160,Math.round(pw*.34))/pw, sh=sw*.92*.75, k=notes.filter(function(y){return y.kind==='sticky'&&y.page===n}).length%4;
+  var spots=[[1-sw-.06,.10],[.06,.34],[1-sw-.10,.52],[.10,.66]], sp=spots[k];
+  var x={id:'s'+Date.now(),kind:'sticky',page:n,color:color,text:'',quote:'',x:Math.max(0,sp[0]),y:Math.min(1-sh,sp[1]),rot:[-2,1.5,-1,2.2][k],t:Date.now()};
+  notes.push(x);persist();
+  var el=stickyEl(x,pw);L.appendChild(el);el.querySelector('textarea').focus({preventScroll:true});
+  refreshPage(n);toast('Drag the top of the sticky to move it');
+}
 document.getElementById('saveSel').onclick=function(){
   if(!pending)return; notes.push({id:Date.now()+'',page:pending.page||view(cur)[0],text:'',quote:pending.text,t:Date.now()}); persist();
   pending=null; document.getElementById('savebar').classList.remove('show'); render(); toast('Saved to your notes');
