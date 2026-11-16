@@ -192,7 +192,8 @@ var N=162, W=1080, H=1440, cur=1, spread=false, slots=[], busy=false;
 var track=document.getElementById('track'), stage=document.getElementById('stage');
 var countEl=document.getElementById('count'), scrub=document.getElementById('scrub');
 function pad(n){return ('00'+n).slice(-3)}
-function url(n){return 'p/'+pad(n)+'.html'}
+var BASE=location.pathname.replace(/\/(index\.html)?$/,'')+'/';
+function url(n){return BASE+'p/'+pad(n)+'.html'}
 var mode='auto'; try{mode=localStorage.getItem('und-view')||'auto'}catch(e){}
 function isSpread(){ if(mode==='1')return false; if(mode==='2')return true; return stage.clientWidth>=900 && stage.clientWidth/stage.clientHeight>1.25}
 // which pages make the view that contains page n
@@ -448,7 +449,7 @@ function closeToc(){toc.classList.remove('open');toc.setAttribute('aria-hidden',
 document.getElementById('openToc').onclick=openToc;
 document.getElementById('closeToc').onclick=closeToc;
 toc.addEventListener('click',function(e){if(e.target===toc)closeToc()});
-fetch('manifest.json').then(function(r){return r.json()}).then(function(m){
+fetch(BASE+'manifest.json').then(function(r){return r.json()}).then(function(m){
   var box=document.getElementById('tocList');
   m.sections.forEach(function(s){
     var b=document.createElement('button');b.type='button';b.className='row';
