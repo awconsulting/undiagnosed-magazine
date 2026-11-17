@@ -85,21 +85,49 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 .nw{white-space:nowrap}
 .mbr{display:none}
 @media (max-width:899px){.mbr{display:inline}}
+
+.optB{display:block!important;text-align:center;padding-top:48px}
+.optB .hero{padding:0;text-align:center}
+.optB h1{font-size:clamp(42px,6vw,92px);max-width:1100px;margin-left:auto;margin-right:auto;line-height:1}
+.optB .rot{justify-items:center}
+.optB .stage{display:grid;grid-template-columns:1fr minmax(0,420px) 1fr;align-items:center;gap:40px;margin-top:44px}
+.optB .issues{padding:0;display:block}
+.optB .side{display:flex;flex-direction:column;gap:6px;align-items:center}
+.optB .side b{font-size:clamp(48px,5vw,80px);font-weight:900;letter-spacing:-.04em;line-height:1}
+.optB .side span{font-family:AshHand,cursive;font-size:clamp(20px,1.8vw,28px);color:#D70015}
+.optB .side.l{justify-self:end}.optB .side.r{justify-self:start}
+.optB .cta{padding:56px 0 88px}
+.optB .btn{margin-top:0;height:64px;padding:0 38px;font-size:20px}
+.optB .fine{margin:16px 0 0;font-size:16px;font-weight:600;color:#6E6E73}
+@media (max-width:899px){.optB{padding-top:36px}.optB h1{font-size:clamp(42px,10.5vw,76px)}
+  .optB .stage{grid-template-columns:1fr 1fr;gap:16px 24px}
+  .optB .issues{grid-column:1/-1;grid-row:1;max-width:400px;margin:0 auto;width:100%}
+  .optB .side{justify-self:center!important}}
+</style>
+<style id="leftmobile">
+@media (max-width:899px){
+  .hero,.optA .hero,.optB .hero,.optB .cta{text-align:left!important}
+  .hero h1,.hero .lede{margin-left:0!important;margin-right:0!important}
+  .hero .rot,.optA .rot,.optB .rot{justify-items:start!important}
+  .optB .cta .fine{text-align:left}
+}
 </style>
 </head>
 <body>
 <header><div class="wrap"><a class="brand" href="/"><span class="wm">undiagnosed<em>*</em><span class="mg"> magazine</span></span><small>*for now</small></a><a href="/issue-1/" style="font-weight:700;font-size:15px;text-decoration:none;color:#FFFFFF">Read Issue One</a></div></header>
-<main class="wrap split">
+<main class="wrap optB">
   <section class="hero">
     <p class="kicker">A free digital magazine</p>
-    <h1><span class="sr">For the ones still waiting… on a treatment plan.</span><span aria-hidden="true">For the ones <br class="mbr"><span class="nw"><span class="u">still waiting</span>…</span></span><span class="rot" aria-hidden="true"><span class="rw on">on a treatment plan.</span><span class="rw">to feel better.</span><span class="rw">for someone to believe them.</span><span class="rw">on a diagnosis.</span><span class="rw">for a doctor who listens.</span><span class="rw">on test results.</span><span class="rw">to feel like themselves again.</span><span class="rw">for insurance to say yes.</span><span class="rw">on a referral.</span><span class="rw">for one good day.</span></span></h1>
-    <p class="lede"><span class="ln">Undiagnosed Magazine is free to read, right here.</span><span class="ln">No download. No email.</span><span class="ln">Tap the cover and start turning pages.</span></p>
-    <a class="btn" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <h1><span class="sr">For the ones still waiting… on a treatment plan.</span><span aria-hidden="true">For the ones <span class="nw"><span class="u">still waiting</span>…</span></span><span class="rot" aria-hidden="true"><span class="rw on">on a treatment plan.</span><span class="rw">to feel better.</span><span class="rw">for someone to believe them.</span><span class="rw">on a diagnosis.</span><span class="rw">for a doctor who listens.</span><span class="rw">on test results.</span><span class="rw">to feel like themselves again.</span><span class="rw">for insurance to say yes.</span><span class="rw">on a referral.</span><span class="rw">for one good day.</span></span></h1>
   </section>
-  <section class="issues" aria-label="Issue One">
-    <a class="issue" href="/issue-1/" aria-label="Read Issue One">
-      <div class="book"><div class="inner"><div class="cover" id="cv"><iframe src="/issue-1/p/001.html" title="Undiagnosed, Issue One cover" tabindex="-1" scrolling="no"></iframe></div></div></div>
-    </a>
+  <section class="stage">
+    <div class="side l"><b>162</b><span>pages</span></div>
+    <div class="issues" aria-label="Issue One"><a class="issue" href="/issue-1/" aria-label="Read Issue One"><div class="book"><div class="inner"><div class="cover" id="cv"><iframe src="/issue-1/p/001.html" title="Undiagnosed, Issue One cover" tabindex="-1" scrolling="no"></iframe></div></div></div></a></div>
+    <div class="side r"><b>$0</b><span>free to read</span></div>
+  </section>
+  <section class="cta">
+    <a class="btn" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <p class="fine">Right here in your browser. No download. No email.</p>
   </section>
 </main>
 <footer><div class="wrap">
