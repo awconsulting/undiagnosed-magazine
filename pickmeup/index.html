@@ -1,0 +1,263 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pick Me Up</title>
+<style>
+:root{
+  --ink:#17171f;--ink2:#5d5f73;--ink3:#696c82;--ground:#f2f3f6;--card:#fff;
+  --hair:rgba(24,28,48,.08);--brand:#d2042d;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --sh:0 1px 2px rgba(24,28,48,.05),0 14px 32px -14px rgba(24,28,48,.2);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);margin:0;font:400 17px/1.55 var(--sans);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:720px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:30px 60px}
+.mark{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--brand);margin:0 0 22px}
+h1{font-size:clamp(34px,8vw,46px);font-weight:800;letter-spacing:-.036em;line-height:1.04;margin:0 0 12px;text-wrap:balance}
+.lede{font-size:17.5px;line-height:1.45;color:var(--ink2);margin:0 0 26px;max-width:32em;text-wrap:pretty}
+.grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:580px){.grid{grid-template-columns:1fr 1fr}}
+.pick{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;
+  background:var(--card);border:0;border-radius:24px;padding:14px 16px;box-shadow:var(--sh);
+  color:inherit;font:inherit;-webkit-appearance:none;appearance:none}
+.pick:active{transform:translateY(1px)}
+.pick:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.thumb{width:58px;height:58px;border-radius:17px;flex:none;background-size:cover;background-position:center;
+  filter:blur(3px) saturate(1.06);box-shadow:inset 0 0 0 1px var(--hair)}
+.pt{min-width:0;flex:1}
+.pt b{display:block;font-size:17.5px;font-weight:700;line-height:1.24;letter-spacing:-.018em}
+.pt span{display:block;font-size:14.5px;line-height:1.38;color:var(--ink3);margin-top:4px}
+.card{background:var(--card);border-radius:24px;box-shadow:var(--sh);padding:20px 18px;margin-top:16px}
+.card h2{margin:0 0 12px;font-size:14px;font-weight:700;letter-spacing:-.008em;color:var(--ink)}
+.chips{display:flex;gap:9px;flex-wrap:wrap}
+.chip{font:inherit;font-size:14.5px;font-weight:600;color:var(--ink2);background:#f3f4f7;border:0;
+  border-radius:999px;padding:9px 16px;cursor:pointer;-webkit-appearance:none;appearance:none}
+.chip.on{background:var(--ink);color:#fff}
+.chip:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.foot{margin-top:26px;padding-top:20px;border-top:1px solid var(--hair);font-size:14.5px;line-height:22px;color:var(--ink3)}
+.foot button{background:none;border:0;padding:8px 0 0;font:inherit;font-size:14.5px;color:var(--ink2);
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.hard{margin-top:12px}
+.hard span{display:block;font-size:15px;line-height:23px;color:var(--ink2)}
+.hard span+span{margin-top:7px}
+.hard .b{font-weight:700;color:var(--ink)}
+.st{margin-top:16px}
+.st span{display:block;font-size:14.5px;line-height:22px;color:var(--ink2)}
+.st span+span{margin-top:6px}
+/* ---------- player ---------- */
+body.on{overflow:hidden}
+.pl{position:fixed;inset:0;z-index:50;background:#0c0d10;display:none;overflow:hidden}
+.pl.on{display:block}
+.shot{position:absolute;inset:-6%;background-size:cover;background-position:center;opacity:0;
+  transition:opacity 2.6s ease;filter:blur(14px) saturate(1.08);transform:scale(1.08);will-change:opacity}
+.shot.show{opacity:1}
+.veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,12,.52),rgba(8,9,12,.3) 34%,rgba(8,9,12,.6))}
+.top{position:absolute;left:0;right:0;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:calc(14px + env(safe-area-inset-top,0px));padding-bottom:14px}
+.tr{display:flex;gap:9px}
+.ic,.pill{font:inherit;cursor:pointer;color:#fff;background:rgba(255,255,255,.14);border:0;border-radius:999px;
+  -webkit-appearance:none;appearance:none;backdrop-filter:blur(8px)}
+.ic{width:38px;height:38px;display:flex;align-items:center;justify-content:center;flex:none}
+.pill{font-size:14px;font-weight:600;padding:10px 15px;letter-spacing:-.006em}
+.ic:focus-visible,.pill:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.stage{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;
+  padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px));
+  padding-block:96px 116px}
+.lyric{margin:0;opacity:0;transition:opacity 1.1s ease;max-width:17.5em;text-align:center}
+.lyric.show{opacity:1}
+.ln{display:block;font-size:clamp(22px,5.6vw,30px);font-weight:700;line-height:1.34;letter-spacing:-.024em;
+  color:#fff;text-wrap:balance;text-shadow:0 1px 26px rgba(0,0,0,.4)}
+.ln+.ln{margin-top:10px}
+.hint{position:absolute;left:0;right:0;bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:3;margin:0;
+  text-align:center;font-size:13.5px;color:rgba(255,255,255,.62);opacity:0;transition:opacity .7s ease;pointer-events:none}
+.hint.show{opacity:1}
+.end{position:absolute;inset:0;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px));
+  background:rgba(8,9,12,.46);backdrop-filter:blur(3px)}
+.end.on{display:flex}
+.end-t{margin:0 0 10px;font-size:20px;font-weight:700;letter-spacing:-.02em;color:#fff;text-align:center}
+.btn{font:inherit;font-size:16px;font-weight:600;cursor:pointer;color:#17171f;background:#fff;border:0;
+  border-radius:999px;padding:14px 26px;min-width:208px;-webkit-appearance:none;appearance:none}
+.btn.ghost{background:rgba(255,255,255,.16);color:#fff}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.end-st{margin-top:28px;max-width:30em;text-align:center}
+.end-st span{display:block;font-size:13.5px;line-height:20px;color:rgba(255,255,255,.76)}
+.end-st span+span{margin-top:5px}
+.pl:has(.end.on) .lyric{opacity:0}
+.pl:has(.end.on) .tr{opacity:0;pointer-events:none}
+.sheet{position:absolute;inset:0;z-index:6;display:none}
+.sheet.on{display:block}
+.sh-bg{position:absolute;inset:0;background:rgba(8,9,12,.5)}
+.sh-in{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:28px 28px 0 0;max-height:78%;overflow:auto;
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));
+  padding-top:20px;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
+.sh-h{margin:0 0 12px;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.sh-o{display:block;width:100%;text-align:left;font:inherit;font-size:16px;cursor:pointer;color:var(--ink);
+  background:#f3f4f7;border:0;border-radius:16px;padding:14px 16px;margin-bottom:8px;-webkit-appearance:none;appearance:none}
+.sh-o.on{background:var(--ink);color:#fff}
+.sh-f{font-size:14px;line-height:21px;color:var(--ink3);margin:10px 0 0}
+@media (prefers-reduced-motion:reduce){.shot,.lyric{transition-duration:.01ms}.shot{transform:none}}
+</style>
+
+<div class="wrap">
+  <p class="mark">undiagnosed*</p>
+  <h1>Pick me up</h1>
+  <p class="lede">Words for the days that are hard to be in. Pick the one that fits today, and the words move on their own. You can slow them down or stop any time.</p>
+  <div class="grid" id="grid"></div>
+  <section class="card"><h2>How fast the words move</h2><div class="chips" id="pace"></div></section>
+  <div class="foot">
+    Nothing here is medical advice, and Undiagnosed App cannot advise.
+    <br><button type="button" id="hardBtn" aria-expanded="false" aria-controls="hard">If today feels bigger than this</button>
+    <div class="card hard" id="hard" hidden>
+      <span class="b">You can talk to someone right now.</span>
+      <span>In the US, call or text 988 for the Suicide and Crisis Lifeline, any hour.</span>
+      <span>If you are somewhere else, your local emergency line will know who to connect you to.</span>
+    </div>
+    <div class="card st" id="st"></div>
+  </div>
+</div>
+
+<div class="pl" id="pl" role="dialog" aria-modal="true" aria-label="Pick me up" tabindex="-1">
+  <div class="shot" id="s0"></div><div class="shot" id="s1"></div><div class="veil"></div>
+  <div class="top">
+    <button type="button" class="ic" data-close aria-label="Close"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="tr"><button type="button" class="pill" id="slow"></button><button type="button" class="pill" id="mus">Music</button></div>
+  </div>
+  <div class="stage"><p class="lyric" id="ly" aria-live="polite"></p></div>
+  <p class="hint" id="hint">Tap anywhere to pause.</p>
+  <div class="end" id="end">
+    <p class="end-t">That is the end of it.</p>
+    <button type="button" class="btn" id="again">Read it again</button>
+    <button type="button" class="btn ghost" data-close>Close</button>
+    <div class="end-st" id="endst"></div>
+  </div>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const SETS = [{"t":"I'm sad","s":"A day that just hurts","img":["p01","p02","p03","p04"],"l":["Today hurts. That's it.","Nothing has to be learned from it.","The good days don't get cancelled because of this one, and nobody's counting either way.","You're not behind. There's no schedule, there never was one.","Your body isn't doing what it used to, and that's a real loss.","It's not a thing you carry around that stopped working. It's you. This is happening to you.","You can miss how you used to be. That isn't self-pity.","There's no clock on this.","Resting isn't giving up. You're not giving up.","You've already gotten through days like this one. More than one, and that wasn't luck.","You've fought too hard to stop now.","You and your body have been in this together the whole way.","Neither of you has quit on the other yet."]},{"t":"My appointment","s":"Another \"we're not sure\"","img":["p05","p06","p07","p08"],"l":["You got up for that. Honestly, that was the hard part.","You got there worn out and short on words.","Maybe you forgot half of what you meant to say.","Maybe it came out in the wrong order, or you just pointed at where it hurts and hoped.","And they said they weren't sure. Or nothing.","That's not because you explained it badly.","You shouldn't have to describe your body perfectly to be believed. Nobody can do that on a bad day.","Being heard shouldn't cost you energy you don't have.","You're the only one in that room who lives in your body, even on the days you can't find words for it.","You can be exhausted and still be telling the truth.","You'll want to make this your fault. Please don't. Their not knowing isn't your bad communication.","Being angry about it is fair. It's a fair thing to be angry about.","Your notes are saved. You don't have to hold all of it in your head tonight.","That was one appointment. It doesn't get to decide the ones after it.","What you need isn't a doctor who gets it in one visit.","It's one who'll sit with you long enough to actually find what helps you live more comfortably.","Those doctors are out there. People find them.","Not always on the first try. Sometimes not on the fourth. Some of us are on our ninth and still going.","There are doctors looking for people like you, who already know what to do with you.","You just haven't met yours yet.","You got there today with nothing left, and that counted. It doesn't have to count for anything tomorrow."]},{"t":"It's all too much for me","s":"Everything at once","img":["p09","p10","p11","p12"],"l":["The dishes are piling up, there are emails you haven't answered, and you owe a friend a text back.","You're trying to keep a job and keep your relationships intact while your own body is making it impossible to keep up.","It's too much. It's genuinely too much.","You're not bad at managing your life. You're just doing it while carrying something nobody else can see.","You're not lazy for needing to lie down instead of finishing the laundry.","Canceling plans again doesn't make you a bad friend. It makes you someone whose body is currently running the show.","You don't owe anyone your best performance of being okay.","The list is always going to be long.","The emails and the dishes will still be there tomorrow.","Just keeping yourself going is a full-time job right now.","That invisible work counts as something.","You are doing the best you can with the energy you actually have.","There is no deadline for getting back to your normal life.","It feels like it's too much because it actually is too much.","You are trying to live a normal life while managing a body that doesn't cooperate. That's two full-time jobs.","And it's okay that it feels too heavy.","You were never meant to carry all of this completely alone.","This is why we have people. This is why we have community.","Friends who get it, doctors who keep looking, therapists who hold the space.","Flowers, puppies and kitties, funny movies, your favorite snack, that sweet treat you've been saving.","Gift yourself whatever brings you a little bit of joy right now. Even if it's just a piece of chocolate in bed.","We need you.","I see exactly how hard you are fighting to stay in your own life.","I am proud of you. Not because you're keeping up, but because you're surviving something that would break most people.","You are not the only one white-knuckling it through a Tuesday just to keep your head above water.","There are a lot of us right here with you.","Don't give up."]},{"t":"I'm in pain","s":"When it takes the whole room","img":["p13","p14","p15","p16"],"l":["This hurts. That's it, that's the sentence.","You don't have to rate it out of ten right now.","You don't have to shame it into positivity or force a silver lining onto a day that just hurts.","The way you actually get through pain is to name it.","To sit with it.","To witness it.","You give it the space it has earned in your heart and mind.","Pain takes up the whole room, and you deserve to be able to say that out loud without being told it isn't that bad.","Letting yourself feel it, and telling someone else about it, is how you get through it.","You aren't weak for needing today to be small.","You're not making it up, and you're not too much.","You've done this before on days nobody was watching, and you're still here.","You'd give anyone else hurting this much kindness without thinking twice. You deserve that exact same grace.","Hurting this much doesn't mean there's nothing left to try.","There are doctors who keep at this until something helps. People do find them.","You don't have to go find one tonight. Just let yourself be here for tonight.","You deserve to get through this.","And you are getting through it, right now, just by surviving this moment.","You are not alone in feeling like this.","Don't give up."]},{"t":"Nobody believes me","s":"The one that gets said most","img":["p17","p18","p19","p20"],"l":["I believe you.","You're not making this up.","You're not too sensitive, and you're not exaggerating to be taken seriously.","You've been in your body the whole time. Nobody else has been in there with you.","A test that came back normal doesn't mean nothing's wrong.","Keep your notes. They're worth something. So are you.","What you're doing has a name. It's advocating for yourself, and it's exhausting, and you're doing it anyway.","One doctor not believing you doesn't make you wrong. It makes them wrong.","The right one will take you seriously and then keep working with you instead of stopping at the first normal result.","Those doctors exist. People here have found them.","You've been telling the truth this whole time. That's not a small thing to keep doing."]},{"t":"I'm too tired to explain","s":"No updates owed","img":["p01","p02","p03","p04"],"l":["You don't owe anyone an update tonight.","Not your mom, not the group chat, not the friend who means well.","\"I can't today\" is a full sentence. You don't have to add anything to it.","Canceling is allowed. They'll live.","Tired isn't laziness, even on the days you don't believe that.","Your body's been working since you opened your eyes and nobody saw it. It still happened.","Nobody's waiting for you to be better by a certain date.","Nothing here needs you right now. All of it can wait.","Resting is part of this, not a break from it.","Being too tired to explain tonight doesn't say anything about how hard you're trying.","You haven't stopped looking. You stopped for tonight, and that's not the same thing."]},{"t":"I'm scared","s":"Waiting on something","img":["p05","p06","p07","p08"],"l":["Scared is the right thing to be when you don't know what's coming.","You can want an answer and dread one at the same time.","Fear's loud at night. It isn't truer at night.","You don't have to be brave about this.","You've survived every worst day so far. Every one of them.","Nothing has to be decided while you feel like this.","The answer will still be there when you're ready to look at it.","You're not alone in the dark part of this, even at 3am when it feels like you are.","Waiting isn't the same as nothing happening.","Somewhere a doctor is still working on cases like yours, and you haven't met them yet.","Not knowing tonight doesn't mean you'll never know.","You've made it through every wait so far."]},{"t":"I'm angry","s":"Years of this","img":["p09","p10","p11","p12"],"l":["You're allowed to be furious.","Years of this would make anyone furious.","Being angry doesn't make you difficult, or a bad patient.","Anger is a part of grief.","You have to grieve the life you thought you'd have just to get through this one.","Living with an undiagnosed illness means grieving over and over. You are mourning a body you don't recognize while everyone else just expects you to keep going.","Anger is just grief with somewhere to go.","Nobody has to agree with it for it to be real.","You can put it down for the night. It'll keep.","Anger has kept you going this long and it hasn't made you wrong about anything.","You're still here, still asking, still looking, after years of this.","That's a long time to keep trying, and you have kept trying.","You are doing a good job.","You are doing your best, and your best will always be enough.","I am so proud of you. You should be proud of you.","Your strength is inspiring. Your will, your faith, your tenacity is so inspiring.","Thank you for still being here.","Our community needs you. I need you.","There are still things left to try, and doctors who haven't been asked yet.","You're not out of road. You're just tired tonight and that is 100% ok."]},{"t":"I feel alone in this","s":"Somebody else is awake too","img":["p13","p14","p15","p16"],"l":["Somebody else is awake right now with the same phone in her hand.","Waiting on the same kind of appointment.","She's got the same folder full of normal results.","You'll probably never meet her.","She'd believe you in a second.","You're not the only one who got told it's probably stress.","There are a lot of us. You didn't ask to be in this, and neither did we.","You don't have to be the strong one tonight.","Some of the people in this are further along than you are, and some of them have found the doctor who kept going with them until something helped.","That's not luck that only happens to other people.","You're not the last one still looking, and you won't be the last one to find help."]},{"t":"I don't feel like myself","s":"Far away, not you","img":["p17","p18","p19","p20"],"l":["You're still in there.","Feeling far away is something people feel. It isn't who you are.","You don't have to perform being fine.","The parts of you that went quiet haven't gone anywhere.","You still laugh at things. Some days it just takes more.","Not recognizing yourself is one of the loneliest parts of this.","You're allowed to miss who you were.","The person who showed up today is still you, even on the days it doesn't feel like it.","You'd be gentle with anyone else who got this worn down.","You haven't lost yourself for good, you're worn down. Those are different things.","You'll recognise yourself again. Maybe not today, maybe not next week.","But you've been you this whole time."]},{"t":"I feel invisible","s":"Invisible","img":["p01","p02","p03","p04"],"l":["People tell you that you look fine.","You know that isn't your experience.","You're the one who has to get up and push through it every single day.","Just because you carry it well doesn't mean it isn't heavy.","The smile you give people is real, but holding it up takes energy you don't have.","Nobody sees the amount of effort it takes just to act normal.","And then there's the thing that actually keeps you up at night.","You live with so much pain and strangeness that it just becomes background noise.","The scariest part is never knowing when it's a real emergency.","When something new happens, you can't always tell if it's just a bad day or something dangerous.","You have to weigh whether it's bad enough to go to the hospital, or if you'll just get sent home and told it's stress.","You second-guess yourself because everyone else already does.","You aren't being dramatic for being scared of that.","You are just trying to keep yourself safe when your body doesn't give you clear signals.","You know your body better than anyone else in the room.","You don't have to prove how sick you are to deserve care.","There are doctors out there who won't just look at you and assume you're fine.","They are looking for the invisible things, because they know how to find them.","You haven't given up, and you aren't going to."]}];
+const TRACKS = [['t1','Strings of the Sea'],['t2','Strings of the Sea II'],['t3','Tears of the Ocean'],['t4','Retreat to the Tides'],['t5','Retreat to the Tides II'],['t6','Soft Strings and Birds'],['t7','Soft Strings and Birds II'],['t8','Soft Strings and Birds III'],['t9','Soft Strings and Birds IV']];
+const PACE = [['Slow',1],['Slower',1.45],['Slowest',2]];
+const ADVISE = ['If you think you are having a medical emergency, call 911 now, or your local emergency line if you are not in the US.','Undiagnosed App cannot advise.','Never delay getting care because of anything you read here.','When in doubt, call your doctor now, or go to the closest emergency department.','Give them access to your Undiagnosed record.'];
+const HOLD = 3000, PER = 72, FADE = 1100;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const q = (s) => String(s).replace(/([A-Za-z])'([A-Za-z])/g, '$1’$2');
+const get = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } };
+const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* nothing to save to */ } };
+let pace = (() => { const n = parseInt(get('pmu_pace', '1'), 10); return PACE[n] ? n : 1; })();
+let track = (() => { const v = get('pmu_track', ''); return TRACKS.some((t) => t[0] === v) ? v : ''; })();
+let set = null, i = 0, timer = 0, paused = false, slot = 0, au = null;
+
+// One sentence to a line, and never one word left alone at the end of one.
+function sentences(line) {
+  return q(line).split(/(?<=[.!?])\s+(?=[A-Z"“’'])/).map((s) => {
+    const m = s.match(/\s(\S+)$/); if (!m) return s;
+    const prev = s.slice(0, s.length - m[0].length).split(/\s/).pop() || '';
+    return m[1].length + prev.length <= 14 ? s.replace(/\s(\S+)$/, ' $1') : s;
+  });
+}
+const hold = (t) => Math.round((HOLD + String(t).length * PER) * PACE[pace][1]);
+
+$('grid').innerHTML = SETS.map((s, k) => `<button type="button" class="pick" data-k="${k}"><span class="thumb" style="background-image:url(img/${s.img[0]}.jpg)"></span><span class="pt"><b>${esc(q(s.t))}</b><span>${esc(q(s.s))}</span></span></button>`).join('');
+$('st').innerHTML = ADVISE.map((x) => `<span>${esc(x)}</span>`).join('');
+$('endst').innerHTML = ADVISE.map((x) => `<span>${esc(x)}</span>`).join('');
+function drawPace() {
+  $('pace').innerHTML = PACE.map(([l], n) => `<button type="button" class="chip${n === pace ? ' on' : ''}" data-p="${n}" aria-pressed="${n === pace}">${l}</button>`).join('');
+  $('slow').textContent = PACE[pace][0];
+}
+drawPace();
+
+$('grid').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (b) open(+b.dataset.k); });
+$('pace').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b) return; pace = +b.dataset.p; put('pmu_pace', pace); drawPace(); });
+$('hardBtn').addEventListener('click', () => { const h = $('hard'); h.hidden = !h.hidden; $('hardBtn').setAttribute('aria-expanded', String(!h.hidden)); });
+
+function open(k) {
+  set = SETS[k]; i = 0; paused = false; slot = 0;
+  $('end').classList.remove('on');
+  const a = $('s0'), b = $('s1');
+  [a, b].forEach((el) => { el.classList.remove('show'); el.style.backgroundImage = ''; });
+  a.style.backgroundImage = `url(img/${set.img[0]}.jpg)`;
+  requestAnimationFrame(() => a.classList.add('show'));
+  set.img.slice(1).forEach((n) => { const p = new Image(); p.src = `img/${n}.jpg`; });
+  $('pl').classList.add('on'); document.body.classList.add('on');
+  $('pl').focus({ preventScroll: true });
+  audio();
+  setTimeout(() => $('hint').classList.add('show'), 1400);
+  setTimeout(() => $('hint').classList.remove('show'), 5200);
+  step();
+}
+function step() {
+  if (!set) return;
+  if (i >= set.l.length) return finish();
+  const ly = $('ly'); ly.classList.remove('show');
+  const per = Math.max(1, Math.ceil(set.l.length / set.img.length));
+  cross(set.img[Math.floor(i / per) % set.img.length]);
+  setTimeout(() => {
+    if (!set) return;
+    ly.innerHTML = sentences(set.l[i]).map((s) => `<span class="ln">${esc(s)}</span>`).join('');
+    ly.classList.add('show');
+    clearTimeout(timer);
+    timer = setTimeout(() => { if (!paused) { i += 1; step(); } }, hold(set.l[i]));
+  }, FADE * 0.6);
+}
+function cross(name) {
+  const cur = $(`s${slot}`); const url = `url(img/${name}.jpg)`;
+  if (cur.style.backgroundImage === url) return;
+  slot = slot ? 0 : 1;
+  const nxt = $(`s${slot}`);
+  nxt.style.backgroundImage = url; nxt.classList.add('show'); cur.classList.remove('show');
+}
+function finish() { $('ly').classList.remove('show'); setTimeout(() => $('end').classList.add('on'), 600); }
+function close() {
+  clearTimeout(timer); timer = 0; set = null; stop();
+  $('pl').classList.remove('on'); document.body.classList.remove('on'); $('ly').innerHTML = '';
+}
+function stop() { try { if (au) { au.pause(); au.currentTime = 0; } } catch (e) { /* already stopped */ } au = null; }
+function audio() {
+  stop(); if (!track) return;
+  try {
+    au = new Audio(`audio/${track}.mp3`); au.loop = true; au.volume = 0.55;
+    au.addEventListener('error', () => { au = null; });
+    const p = au.play(); if (p && p.catch) p.catch(() => { /* she can start it from the sheet */ });
+  } catch (e) { au = null; }
+}
+function pause(on) {
+  paused = !!on;
+  if (paused) { clearTimeout(timer); timer = 0; try { if (au) au.pause(); } catch (e) { /* no audio */ } }
+  else { try { if (au) { const p = au.play(); if (p && p.catch) p.catch(() => {}); } } catch (e) { /* no audio */ } step(); }
+}
+$('slow').addEventListener('click', () => {
+  pace = (pace + 1) % PACE.length; put('pmu_pace', pace); drawPace();
+  if (set && !paused) { clearTimeout(timer); timer = setTimeout(() => { i += 1; step(); }, hold(set.l[i])); }
+});
+$('mus').addEventListener('click', () => {
+  $('sheet').innerHTML = `<div class="sh-bg" data-shclose></div><div class="sh-in"><p class="sh-h">Music</p>
+<button type="button" class="sh-o${track ? '' : ' on'}" data-t="">No music</button>
+${TRACKS.map(([f, n]) => `<button type="button" class="sh-o${track === f ? ' on' : ''}" data-t="${f}">${n}</button>`).join('')}
+<p class="sh-f">The words keep going while the music plays.</p></div>`;
+  $('sheet').classList.add('on');
+});
+$('sheet').addEventListener('click', (e) => {
+  if (e.target.closest('[data-shclose]')) { $('sheet').classList.remove('on'); $('sheet').innerHTML = ''; return; }
+  const b = e.target.closest('[data-t]'); if (!b) return;
+  track = b.dataset.t || ''; put('pmu_track', track);
+  $('sheet').classList.remove('on'); $('sheet').innerHTML = ''; audio();
+});
+$('again').addEventListener('click', () => { const k = SETS.indexOf(set); close(); open(k); });
+$('pl').addEventListener('click', (e) => {
+  if (e.target.closest('[data-close]')) { close(); return; }
+  if (e.target.closest('.top, .end, .sheet')) return;
+  if (set) pause(!paused);
+});
+document.addEventListener('keydown', (e) => {
+  if (!set) return;
+  if (e.key === 'Escape') { if ($('sheet').classList.contains('on')) { $('sheet').classList.remove('on'); $('sheet').innerHTML = ''; return; } close(); return; }
+  if (e.key === ' ' || e.key === 'Spacebar') { if (document.activeElement && document.activeElement.closest('button')) return; e.preventDefault(); pause(!paused); }
+});
+</script>
