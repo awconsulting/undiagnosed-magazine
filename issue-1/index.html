@@ -189,11 +189,11 @@ footer{gap:12px}
   <button class="fbtn" id="openStk" type="button" aria-label="Add a sticky note"><i class="sq"></i><span>Sticky note</span></button>
   <div class="pager">
     <button class="arrow" id="fprev" type="button" aria-label="Previous page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <span id="count">1 / 162</span>
+    <span id="count">1 / 160</span>
     <button class="arrow" id="fnext" type="button" aria-label="Next page"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
   <label for="scrub" style="position:absolute;left:-9999px">Go to page</label>
-  <input type="range" id="scrub" min="1" max="162" value="1">
+  <input type="range" id="scrub" min="1" max="160" value="1">
   <div class="seg" role="group" aria-label="Pages at once">
     <button type="button" data-mode="1" aria-label="One page">1 page</button>
     <button type="button" data-mode="2" aria-label="Two pages">2 pages</button>
@@ -207,7 +207,7 @@ footer{gap:12px}
 </div>
 <div id="pages" aria-hidden="true">
   <div class="sheet" role="dialog" aria-label="All pages">
-    <div class="head"><h2>All 162 pages</h2><button class="hbtn" id="closePages" type="button">Close</button></div>
+    <div class="head"><h2>All 160 pages</h2><button class="hbtn" id="closePages" type="button">Close</button></div>
     <div class="grid" id="grid"></div>
   </div>
 </div>
@@ -232,7 +232,7 @@ footer{gap:12px}
 <script>
 
 (function(){
-var N=162, W=1080, H=1440, cur=1, spread=false, slots=[], busy=false;
+var N=160, W=1080, H=1440, cur=1, spread=false, slots=[], busy=false;
 var track=document.getElementById('track'), stage=document.getElementById('stage');
 var countEl=document.getElementById('count'), scrub=document.getElementById('scrub');
 function pad(n){return ('00'+n).slice(-3)}
