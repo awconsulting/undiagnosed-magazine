@@ -28,7 +28,7 @@ header .wrap{height:64px;display:flex;align-items:center;justify-content:space-b
 .u{text-decoration:underline;text-decoration-color:#D70015;text-decoration-thickness:.09em;text-underline-offset:.12em}
 .kicker{font-size:13px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#D70015;margin:0}
 h1{font-size:clamp(36px,9vw,46px);line-height:1.04;letter-spacing:-.03em;font-weight:900;margin:16px 0 0}
-.lede{font-size:clamp(19px,2.4vw,23px);line-height:1.5;color:#2C2C2E;max-width:640px;margin:22px 0 0;font-weight:500}
+.lede{font-size:clamp(19px,2.4vw,23px);line-height:1.5;color:#2C2C2E;max-width:640px;margin:14px 0 0;font-weight:500}
 .issues{display:grid;grid-template-columns:minmax(0,420px);justify-content:center;padding:28px 0 96px}
 .cover iframe{position:absolute;left:0;top:0;width:1080px;height:1440px;border:0;transform-origin:0 0;pointer-events:none}
 .cover{position:relative}
@@ -64,11 +64,12 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 @media (max-width:899px){.hero{padding:36px 0 8px}.issues{padding:48px 0 88px}}
 @font-face{font-family:AshHand;src:url(/assets/fonts/AshHand.woff) format('woff');font-display:swap}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.rot{display:grid;margin-top:.22em;font-family:AshHand,cursive;font-weight:400;letter-spacing:0;color:#D70015;font-size:1em;line-height:1.12;white-space:normal}
+.rot{display:grid;margin-top:.18em;font-family:AshHand,cursive;font-weight:400;letter-spacing:0;color:#D70015;font-size:.8em;line-height:1;white-space:nowrap}
+.rot .rw{padding:.06em 0}
 .rot .rw{grid-area:1/1;opacity:0;transform:translateY(.35em);transition:opacity .45s ease,transform .45s ease}
 .rot .rw.on{opacity:1;transform:none}
 .rot .rw.out{opacity:0;transform:translateY(-.35em)}
-@media (max-width:560px){.rot{font-size:1em;line-height:1.14}}
+
 @media (prefers-reduced-motion:reduce){.rot .rw,.rot .rw.out{transform:none;transition:opacity .2s}}
 </style>
 </head>
@@ -98,6 +99,12 @@ function fit(){f.style.transform='scale('+(c.clientWidth/1080)+')'}
 fit();window.addEventListener('resize',fit);})();
 </script>
 <script>
+(function(){var rot=document.querySelector('.rot');if(!rot)return;
+function fit(){rot.style.fontSize='';var h=rot.parentNode,avail=h.clientWidth,base=parseFloat(getComputedStyle(h).fontSize),max=0;
+  [].forEach.call(rot.children,function(e){var r=document.createRange();r.selectNodeContents(e);max=Math.max(max,r.getBoundingClientRect().width)});
+  var cur=parseFloat(getComputedStyle(rot).fontSize);if(max>0){var fs=Math.min(base,cur*avail/max*0.98);rot.style.fontSize=fs+'px'}}
+fit();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);var ft;addEventListener('resize',function(){clearTimeout(ft);ft=setTimeout(fit,120)});
+})();
 (function(){var w=[].slice.call(document.querySelectorAll('.rot .rw')),i=0;if(w.length<2)return;
 setInterval(function(){if(document.hidden)return;var a=w[i];a.classList.remove('on');a.classList.add('out');i=(i+1)%w.length;var b=w[i];b.classList.remove('out');void b.offsetWidth;b.classList.add('on');setTimeout(function(){a.classList.remove('out')},500)},2600)})();
 </script>
