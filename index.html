@@ -145,7 +145,7 @@ fit();window.addEventListener('resize',fit);})();
 function fit(){var narrow=innerWidth<900,kids=[].slice.call(rot.children);kids.forEach(function(e){e.style.fontSize=''});rot.style.fontSize='';
   var h=rot.parentNode,avail=h.clientWidth,base=parseFloat(getComputedStyle(h).fontSize),cur=parseFloat(getComputedStyle(rot).fontSize);
   var ws=kids.map(function(e){var r=document.createRange();r.selectNodeContents(e);return r.getBoundingClientRect().width});
-  kids.forEach(function(e,k){if(ws[k]>0)e.style.fontSize=Math.min(base*(narrow?1.05:.95),cur*avail/ws[k]*0.96)+'px'})}
+  kids.forEach(function(e,k){if(ws[k]>0)e.style.fontSize=Math.min(base*(narrow?.92:.82),cur*avail/ws[k]*0.85)+'px'})}
 fit();if(document.fonts){document.fonts.ready.then(fit);document.fonts.load('40px AshHand').then(fit)}addEventListener('load',fit);var ft;addEventListener('resize',function(){clearTimeout(ft);ft=setTimeout(fit,120)});
 })();
 (function(){var w=[].slice.call(document.querySelectorAll('.rot .rw')),i=0;if(w.length<2)return;
