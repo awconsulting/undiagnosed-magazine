@@ -334,7 +334,8 @@ document.addEventListener('keydown',function(e){
 var sx=0,sy=0,dx=0,dragging=false,locked=null;
 var t0=0;
 function hasSel(){var on=false;try{var w=window.getSelection();if(w&&String(w).trim())on=true}catch(e){}document.querySelectorAll('.pg iframe').forEach(function(f){try{var s=f.contentDocument&&f.contentDocument.getSelection();if(s&&String(s).trim())on=true}catch(e){}});return on}
-function tStart(x,y){if(busy)return;if(hasSel()){dragging=false;return}sx=x;sy=y;dx=0;dragging=true;locked=null;t0=Date.now();track.style.transition='none'}
+var lastGo=0;
+function tStart(x,y){if(busy||Date.now()-lastGo<450)return;if(hasSel()){dragging=false;return}sx=x;sy=y;dx=0;dragging=true;locked=null;t0=Date.now();track.style.transition='none'}
 function tMove(x,y,ev){
   if(!dragging)return; dx=x-sx; var dy=y-sy;
   if(locked===null&&(Date.now()-t0>280||hasSel())){dragging=false;snap();return}
@@ -343,14 +344,14 @@ function tMove(x,y,ev){
 }
 function tEnd(){
   if(!dragging)return; dragging=false;
-  if(locked==='x'){ var th=Math.min(90,stage.clientWidth*.18); if(dx<-th)go(1); else if(dx>th)go(-1); else snap(); }
+  if(locked==='x'){ var th=Math.max(70,stage.clientWidth*.22); if(dx<-th){lastGo=Date.now();go(1)} else if(dx>th){lastGo=Date.now();go(-1)} else snap(); }
 }
 var pinch=null, lastTap=0;
 function bind(t){
-  t.addEventListener('touchstart',function(e){if(e.touches.length===2){dragging=false;snap();pinch={d:tdist(e.touches)};return}var p=e.touches[0];tStart(p.clientX,p.clientY)},{passive:true});
+  t.addEventListener('touchstart',function(e){if(e.touches.length===2){dragging=false;snap();pinch={d:tdist(e.touches)};return}var p=e.touches[0];tStart(p.screenX,p.screenY)},{passive:true});
   t.addEventListener('touchmove',function(e){if(pinch&&e.touches.length===2){if(e.cancelable)e.preventDefault();if(tdist(e.touches)/pinch.d>1.12){pinch=null;openZoom(1.5)}}},{passive:false});
   t.addEventListener('touchend',function(e){if(pinch){if(!e.touches.length)pinch=null;return}if(e.changedTouches.length===1&&Math.abs(dx)<10&&locked===null){var now=Date.now();if(now-lastTap<320){lastTap=0;openZoom(1.5)}else lastTap=now}});
-  t.addEventListener('touchmove',function(e){var p=e.touches[0];tMove(p.clientX,p.clientY,e)},{passive:false});
+  t.addEventListener('touchmove',function(e){var p=e.touches[0];tMove(p.screenX,p.screenY,e)},{passive:false});
   t.addEventListener('touchend',tEnd);t.addEventListener('touchcancel',tEnd);
 }
 bind(stage);
