@@ -120,7 +120,6 @@ body.on{overflow:hidden}
     </div>
     <div class="card st" id="st"></div>
   </div>
-  <section class="card pace-c"><h2><span class="pace-ic"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3 1.8"/></svg></span>How fast the words move</h2><div class="chips" id="pace"></div></section>
 </div>
 
 <div class="pl" id="pl" role="dialog" aria-modal="true" aria-label="Pick me up" tabindex="-1">
@@ -181,17 +180,17 @@ function screens(lines) {
 }
 const hold = (t) => Math.round((HOLD + String(t).length * PER) * PACE[pace][1]);
 
-$('grid').innerHTML = SETS.map((s, k) => `<button type="button" class="pick" data-k="${k}"><span class="thumb" style="background-image:url(img/${s.img[0]}.jpg)"></span><span class="pt"><b>${esc(q(s.t))}</b><span>${esc(q(s.s))}</span></span></button>`).join('');
+$('grid').innerHTML = SETS.map((s, k) => `<button type="button" class="pick" data-k="${k}"><span class="thumb" style="background-image:url(/pickmeup/img/${s.img[0]}.jpg)"></span><span class="pt"><b>${esc(q(s.t))}</b><span>${esc(q(s.s))}</span></span></button>`).join('');
 $('st').innerHTML = ADVISE.map((x) => `<span>${esc(x)}</span>`).join('');
 $('endst').innerHTML = ADVISE.map((x) => `<span>${esc(x)}</span>`).join('');
 function drawPace() {
-  $('pace').innerHTML = PACE.map(([l], n) => `<button type="button" class="chip${n === pace ? ' on' : ''}" data-p="${n}" aria-pressed="${n === pace}">${l}</button>`).join('');
+  const pc = $('pace'); if (pc) pc.innerHTML = PACE.map(([l], n) => `<button type="button" class="chip${n === pace ? ' on' : ''}" data-p="${n}" aria-pressed="${n === pace}">${l}</button>`).join('');
   $('slow').setAttribute('aria-label', `How fast the words move, now ${PACE[pace][0]}`);
 }
 drawPace();
 
 $('grid').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (b) open(+b.dataset.k); });
-$('pace').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b) return; pace = +b.dataset.p; put('pmu_pace', pace); drawPace(); });
+if ($('pace')) $('pace').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (!b) return; pace = +b.dataset.p; put('pmu_pace', pace); drawPace(); });
 $('hardBtn').addEventListener('click', () => { const h = $('hard'); h.hidden = !h.hidden; $('hardBtn').setAttribute('aria-expanded', String(!h.hidden)); });
 
 function open(k) {
@@ -199,9 +198,9 @@ function open(k) {
   $('end').classList.remove('on');
   const a = $('s0'), b = $('s1');
   [a, b].forEach((el) => { el.classList.remove('show'); el.style.backgroundImage = ''; });
-  a.style.backgroundImage = `url(img/${set.img[0]}.jpg)`;
+  a.style.backgroundImage = `url(/pickmeup/img/${set.img[0]}.jpg)`;
   requestAnimationFrame(() => a.classList.add('show'));
-  set.img.slice(1).forEach((n) => { const p = new Image(); p.src = `img/${n}.jpg`; });
+  set.img.slice(1).forEach((n) => { const p = new Image(); p.src = `/pickmeup/img/${n}.jpg`; });
   $('pl').classList.add('on'); document.body.classList.add('on');
   $('pl').focus({ preventScroll: true });
   audio();
@@ -225,7 +224,7 @@ function step() {
   }, FADE * 0.6);
 }
 function cross(name) {
-  const cur = $(`s${slot}`); const url = `url(img/${name}.jpg)`;
+  const cur = $(`s${slot}`); const url = `url(/pickmeup/img/${name}.jpg)`;
   if (cur.style.backgroundImage === url) return;
   slot = slot ? 0 : 1;
   const nxt = $(`s${slot}`);
@@ -240,7 +239,7 @@ function stop() { try { if (au) { au.pause(); au.currentTime = 0; } } catch (e) 
 function audio() {
   stop(); if (!track) return;
   try {
-    au = new Audio(`audio/${track}.mp3`); au.loop = true; au.volume = 0.55;
+    au = new Audio(`/pickmeup/audio/${track}.mp3`); au.loop = true; au.volume = 0.55;
     au.addEventListener('error', () => { au = null; });
     const p = au.play(); if (p && p.catch) p.catch(() => { /* she can start it from the sheet */ });
   } catch (e) { au = null; }
