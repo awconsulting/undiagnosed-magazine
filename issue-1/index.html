@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
-<style>
+<style>html,body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#F2F2F4;color:#0B0B0C;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
 body{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
@@ -332,10 +332,13 @@ document.addEventListener('keydown',function(e){
 });
 // swipe: listen on the stage and inside each same-origin page
 var sx=0,sy=0,dx=0,dragging=false,locked=null;
-function tStart(x,y){if(busy)return;sx=x;sy=y;dx=0;dragging=true;locked=null;track.style.transition='none'}
+var t0=0;
+function hasSel(){var on=false;try{var w=window.getSelection();if(w&&String(w).trim())on=true}catch(e){}document.querySelectorAll('.pg iframe').forEach(function(f){try{var s=f.contentDocument&&f.contentDocument.getSelection();if(s&&String(s).trim())on=true}catch(e){}});return on}
+function tStart(x,y){if(busy)return;if(hasSel()){dragging=false;return}sx=x;sy=y;dx=0;dragging=true;locked=null;t0=Date.now();track.style.transition='none'}
 function tMove(x,y,ev){
   if(!dragging)return; dx=x-sx; var dy=y-sy;
-  if(locked===null&&(Math.abs(dx)>8||Math.abs(dy)>8)){locked=Math.abs(dx)>Math.abs(dy)?'x':'y'}
+  if(locked===null&&(Date.now()-t0>280||hasSel())){dragging=false;snap();return}
+  if(locked===null&&(Math.abs(dx)>14||Math.abs(dy)>14)){locked=Math.abs(dx)>Math.abs(dy)*1.6?'x':'y'}
   if(locked==='x'){ if(ev&&ev.cancelable)ev.preventDefault(); var w=stage.clientWidth; track.style.transform='translateX(calc(-33.3333% + '+dx+'px))'; }
 }
 function tEnd(){
