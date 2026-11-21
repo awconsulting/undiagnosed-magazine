@@ -130,7 +130,7 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 .optB .btn.btn2{margin-top:56px}
 #sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;flex-direction:column;align-items:center;gap:6px;
   padding:12px max(16px,env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right));
-  background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid #E4E4E9;
+  background:#FFFFFF;border-top:1px solid #E4E4E9;
   transform:translateY(110%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s;pointer-events:none}
 #sticky.on{transform:translateY(0);visibility:visible;transition:transform .22s ease;pointer-events:auto}
 #sticky .btn{margin:0;width:100%;max-width:420px}
@@ -142,6 +142,7 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 .feats li{display:flex;gap:12px;align-items:flex-start;min-width:0}
 .feats .ic{flex:none;width:22px;display:flex;align-items:center;justify-content:center;color:#0B0B0C;padding-top:2px}
 .feats b{display:block;font-weight:800;font-size:16px;color:#0B0B0C;letter-spacing:-.01em}
+footer a.pvl{display:inline-block;padding:8px 10px;margin:2px 0}
 .feats small{display:block;margin-top:3px;font-weight:500;font-size:15px;line-height:1.4;color:#48484A}
 @media (max-width:899px){.feats{margin-top:44px}.feats ul{grid-template-columns:1fr 1fr;gap:20px}}
 @media (max-width:560px){.feats ul{grid-template-columns:1fr}}
@@ -204,7 +205,7 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 <footer><div class="wrap">
   Your story can be in the next issue. DM <a href="https://www.instagram.com/_ashleighro" target="_blank" rel="noopener">@_ashleighro</a> on Instagram.<br>
   Undiagnosed is also an app for keeping your own symptoms, visits, and results in one place. <a class="nw" href="https://undiagnosed-waitlist.vercel.app" target="_blank" rel="noopener">Have a look</a>.<br>
-  <a href="/privacy">Privacy notice</a><br>
+  <a class="pvl" href="/privacy">Privacy notice</a><br>
   <span style="color:#3A3A3C">&copy; 2026 Velocity Tech Inc. Undiagnosed Magazine is not medical advice, not a diagnosis, and does not replace your clinician. Anything here about emergencies is general, not about you. If you think you may have a medical emergency, call your doctor or 911 now.</span>
 </div></footer>
 <script>
@@ -216,19 +217,19 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
   if(!('IntersectionObserver' in window)||!watch.length)return;
   var seen=new WeakMap();
   // Hysteresis. On a short laptop the hero button is just under the fold at load, so the bar is
-  // correctly up for the first 80px of scroll and correctly down after. Honoured instantly that is a
+  // correctly up for the first 80px of scroll and correctly down after. Honored instantly that is a
   // red bar flashing once before the reader has done anything. A state has to hold for a beat before
   // the bar acts on it, which leaves the genuine stretches and drops the transients.
   var pending=null;
   var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){seen.set(e.target,e.isIntersecting)});
+    es.forEach(function(e){seen.set(e.target,e.intersectionRatio>=1)});
     var any=watch.some(function(n){return seen.get(n)});
     clearTimeout(pending);
     pending=setTimeout(function(){
       bar.classList.toggle('on',!any);
       bar.setAttribute('aria-hidden',any?'true':'false');
     },280);
-  },{threshold:0,rootMargin:'-64px 0px -120px 0px'});
+  },{threshold:1,rootMargin:'-64px 0px 0px 0px'});
   watch.forEach(function(n){io.observe(n)});
 })();
 (function(){var c=document.getElementById('cv'),f=c.querySelector('iframe');
@@ -241,7 +242,8 @@ if(window.ResizeObserver)new ResizeObserver(fit).observe(c);})();
 function fit(){var narrow=innerWidth<900,kids=[].slice.call(rot.children);kids.forEach(function(e){e.style.fontSize=''});rot.style.fontSize='';
   var h=rot.parentNode,avail=h.clientWidth,base=parseFloat(getComputedStyle(h).fontSize),cur=parseFloat(getComputedStyle(rot).fontSize);
   var ws=kids.map(function(e){var r=document.createRange();r.selectNodeContents(e);return r.getBoundingClientRect().width});
-  kids.forEach(function(e,k){if(ws[k]>0)e.style.fontSize=Math.min(base*(narrow?.92:.82),cur*avail/ws[k]*0.85)+'px'})}
+  var one=base*(narrow?.92:.82);ws.forEach(function(w){if(w>0)one=Math.min(one,cur*avail/w*0.92)});
+  kids.forEach(function(e){e.style.fontSize=one+'px'})}
 fit();if(document.fonts){document.fonts.ready.then(fit);document.fonts.load('40px AshHand').then(fit)}addEventListener('load',fit);var ft;addEventListener('resize',function(){clearTimeout(ft);ft=setTimeout(fit,120)});
 })();
 (function(){var w=[].slice.call(document.querySelectorAll('.rot .rw')),i=0;if(w.length<2)return;
