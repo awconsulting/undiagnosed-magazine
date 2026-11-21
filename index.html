@@ -4,11 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Undiagnosed Magazine</title><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png"><link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png"><meta name="theme-color" content="#0B0B0C">
-<meta name="description" content="A free quarterly digital magazine for the undiagnosed and the chronically ill, by Ashleigh Ro Warren. Read it right in your browser.">
+<meta name="description" content="A free quarterly magazine for the undiagnosed and the chronically ill, by Ashleigh Ro Warren. Nine pages open before it asks you for anything.">
 <meta property="og:title" content="Undiagnosed Magazine">
-<meta property="og:description" content="Free to read, right in your browser. No download, no app, no paywall. Issue One: Still Here, Still Undiagnosed.">
+<meta property="og:description" content="Issue one. 164 pages. The first nine open before it asks you for anything.">
 <meta property="og:image" content="https://undiagnosedmagazine.com/assets/cover.jpg">
-<meta name="theme-color" content="#0B0B0C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -26,7 +25,7 @@ header .wrap{height:64px;display:flex;align-items:center;justify-content:space-b
 .brand small{font:700 11px/1 Inter,sans-serif;color:rgba(255,255,255,.55);letter-spacing:.02em}
 .hero{padding:72px 0 40px}
 .u{text-decoration:underline;text-decoration-color:#D70015;text-decoration-thickness:.09em;text-underline-offset:.12em}
-.kicker{font-size:13px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#D70015;margin:0}
+.kicker{font-size:15px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#6E6E73;margin:0}
 h1{font-size:clamp(36px,9vw,46px);line-height:1.04;letter-spacing:-.03em;font-weight:900;margin:16px 0 0}
 .lede{font-size:clamp(19px,2.4vw,23px);line-height:1.5;color:#2C2C2E;max-width:640px;margin:30px 0 0;font-weight:500}
 .issues{display:grid;grid-template-columns:minmax(0,420px);justify-content:center;padding:28px 0 96px}
@@ -69,7 +68,7 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
   .hero h1{font-size:clamp(42px,10.5vw,76px);margin-left:auto;margin-right:auto;max-width:720px}
   .hero .rot{justify-items:center}
   .hero .lede{margin-left:auto;margin-right:auto;font-size:clamp(18px,3vw,25px)}
-  .hero .kicker{font-size:clamp(13px,1.9vw,17px)}}
+  .hero .kicker{font-size:clamp(14px,1.9vw,17px)}}
 @media (min-width:600px) and (max-width:899px){.hero .btn{height:66px;padding:0 38px;font-size:21px}}
 @font-face{font-family:AshHand;src:url(/assets/fonts/AshHand.woff) format('woff');font-display:swap}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -79,74 +78,127 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 .rot .rw.on{opacity:1;transform:none}
 .rot .rw.out{opacity:0;transform:none;transition:opacity .22s ease}
 
-@media (prefers-reduced-motion:reduce){.rot .rw,.rot .rw.out{transform:none;transition:opacity .2s}}
+@media (prefers-reduced-motion:reduce){.rot .rw,.rot .rw.out{transform:none;transition:none}}
 .lede .ln{display:block;text-wrap:balance}
 
 .nw{white-space:nowrap}
 .mbr{display:none}
 @media (max-width:899px){.mbr{display:inline}}
 
-.optB{display:block!important;text-align:center;padding-top:48px}
+.optB{display:block!important;text-align:center;padding-top:20px}
 .optB .hero{padding:0;text-align:center}
 .optB h1{font-size:clamp(42px,6vw,92px);max-width:1100px;margin-left:auto;margin-right:auto;line-height:1}
 .optB .rot{justify-items:center}
-.optB .stage{display:grid;grid-template-columns:1fr minmax(0,420px) 1fr;align-items:center;gap:40px;margin-top:22px}
+.optB .stage{display:block;margin-top:72px}
+.optB .issues{max-width:300px;margin:0 auto}
+.pitch{margin-top:32px}
+@media (min-width:900px){
+  .optB .stage{display:grid;grid-template-columns:minmax(0,400px) minmax(0,420px);gap:64px;justify-content:center;align-items:center;margin-top:24px}
+  .optB .issues{max-width:400px;margin:0}
+  .pitch{margin-top:0;text-align:left}
+  .pitch .fine{margin:0 0 20px;max-width:none}
+  .pitch .sub{margin-top:14px}
+  .optB h1{max-width:920px}
+  .optB .cta{padding-top:8px}
+}
 .optB .issues{padding:0;display:block}
 .optB .side{display:flex;flex-direction:column;gap:6px;align-items:center}
-.optB .side b{font-size:clamp(48px,5vw,80px);font-weight:900;letter-spacing:-.04em;line-height:1}
-.optB .side span{font-family:AshHand,cursive;font-size:clamp(20px,1.8vw,28px);color:#D70015}
+.optB .side b{font-size:52px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.optB .side span{font-family:AshHand,cursive;font-size:20px;color:#3A3A3C}
 .optB .side.l{justify-self:end}.optB .side.r{justify-self:start}
-.feats{margin:52px auto 0;max-width:880px;text-align:left}
-.feats h3{margin:0 0 20px;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#6E6E73;text-align:center}
-.feats ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 26px}
+
+/* --- design review, round 1 --- */
+/* The header link was a 113x19 text label: a 19px tap target for people with tremor and fatigue,
+   on a page whose only job is one tap. It is a button now, and it clears the fold everywhere. */
+.hbtn{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;background:#D70015;color:#FFFFFF;font:700 15px/1 Inter,sans-serif;text-decoration:none;white-space:nowrap}
+.hbtn:hover{background:#B80012}
+/* Four readers and the voice guardian said the same thing: nobody signed it. */
+.sig{margin:12px 0 0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.sig .sigln{font-weight:600;font-size:17px;line-height:1.45;color:#3A3A3C;max-width:440px;text-wrap:balance}
+.sig .signm{font-family:AshHand,cursive;font-size:32px;color:#0B0B0C;line-height:1.2}
+.optB .sub{margin:16px 0 0;font-size:16px;font-weight:500;color:#3A3A3C}
+.optB .promise{margin-top:6px;font-size:15px;color:#6E6E73}
+/* The three best lines in the build existed only inside the cover art, at about 8px on a phone. */
+.inside{margin:48px auto 0;max-width:860px;text-align:left}
+.inside h3,.feats h3{margin:0 0 18px;font-weight:800;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#0B0B0C;text-align:center}
+.feats h3{color:#6E6E73}
+@media (max-width:899px){.inside h3,.feats h3{text-align:left}}
+.inside ul{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.inside li{display:grid;gap:3px}
+.inside em{font-style:normal;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D70015}
+.inside b{font-weight:700;font-size:24px;line-height:1.25;letter-spacing:-.015em;color:#0B0B0C}
+.optB .btn2{margin-top:48px}
+@media (min-width:900px){.inside ul{grid-template-columns:repeat(3,1fr);gap:28px}}
+.feats{margin:72px auto 0;max-width:860px;text-align:left;border-top:1px solid #E4E4E9;padding-top:28px}
+.feats ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:22px 26px}
 .feats li{display:flex;gap:12px;align-items:flex-start;min-width:0}
-.feats .ic{flex:none;width:34px;height:34px;border-radius:10px;background:#FDECEE;display:flex;align-items:center;justify-content:center;color:#D70015}
+.feats .ic{flex:none;width:22px;display:flex;align-items:center;justify-content:center;color:#0B0B0C;padding-top:2px}
 .feats b{display:block;font-weight:800;font-size:16px;color:#0B0B0C;letter-spacing:-.01em}
-.feats small{display:block;margin-top:3px;font-weight:500;font-size:14px;line-height:1.4;color:#6E6E73}
+.feats small{display:block;margin-top:3px;font-weight:500;font-size:15px;line-height:1.4;color:#48484A}
 @media (max-width:899px){.feats{margin-top:44px}.feats ul{grid-template-columns:1fr 1fr;gap:20px}}
 @media (max-width:560px){.feats ul{grid-template-columns:1fr}}
 .optB .cta{padding:28px 0 80px}
 .optB .btn{margin-top:0;height:64px;padding:0 38px;font-size:20px}
-.optB .fine{margin:16px 0 0;font-size:16px;font-weight:600;color:#6E6E73}
-@media (max-width:899px){.optB{padding-top:36px}.optB h1{font-size:clamp(42px,10.5vw,76px)}
+.optB .fine{margin:0 auto 16px;max-width:460px;font-size:17px;font-weight:600;color:#3A3A3C;line-height:1.45}
+@media (max-width:899px){.optB{padding-top:16px}.optB h1{font-size:clamp(42px,10.5vw,76px)}
+  .optB .side b{font-size:34px}.optB .side span{font-size:15px}
   .optB .stage{grid-template-columns:1fr 1fr;gap:16px 24px}
-  .optB .issues{grid-column:1/-1;grid-row:1;max-width:400px;margin:0 auto;width:100%}
+  .optB .issues{grid-column:1/-1;grid-row:1;max-width:300px;margin:0 auto;width:100%}
   .optB .side{justify-self:center!important}}
-@media (max-width:899px){.optB .hero,.optB .cta{text-align:center}.optB .rot{justify-items:center}.optB .stage{max-width:440px;margin-left:auto;margin-right:auto}}
-@media (max-width:600px){.optB .stage{column-gap:0}.optB .side{justify-self:stretch!important;padding:6px 0}.optB .side.r{border-left:2px dashed #D70015}}
+@media (max-width:899px){.optB .hero,.optB .cta{text-align:center}.optB .rot{justify-items:center}.optB .stage{max-width:440px;margin-left:auto;margin-right:auto;margin-top:24px;gap:20px 24px}
+  .optB .side.r{border-left:2px dashed #D70015}}
+@media (max-width:600px){.optB .stage{margin-top:20px}
+  .optB .issues{max-width:252px}
+  .optB .fine{font-size:16px;max-width:330px;margin-bottom:12px}
+  .optB .cta{padding-top:12px}
+  .pitch{margin-top:20px}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><a class="brand" href="/"><span class="wm">undiagnosed<em>*</em><span class="mg"> magazine</span></span><small>*for now</small></a><a href="/issue-1/" style="font-weight:700;font-size:15px;text-decoration:none;color:#FFFFFF">Read Issue One</a></div></header>
+<header><div class="wrap"><a class="brand" href="/"><span class="wm">undiagnosed<em>*</em><span class="mg"> magazine</span></span><small>*for now</small></a><a class="hbtn" href="/issue-1/">Read Issue One</a></div></header>
 <main class="wrap optB">
   <section class="hero">
-    <p class="kicker">A free digital magazine</p>
+    <p class="kicker">A free quarterly magazine</p>
     <h1><span class="sr">For the ones still waiting… on a treatment plan.</span><span aria-hidden="true">For the ones <span class="nw"><span class="u">still waiting</span>…</span></span><span class="rot" aria-hidden="true"><span class="rw on">on a treatment plan.</span><span class="rw">to feel better.</span><span class="rw">for someone to believe them.</span><span class="rw">on a diagnosis.</span><span class="rw">for a doctor who listens.</span><span class="rw">on test results.</span><span class="rw">to feel like themselves again.</span><span class="rw">for insurance to say yes.</span><span class="rw">on a referral.</span><span class="rw">for one good day.</span></span></h1>
+    <p class="sig"><span class="sigln">I made this in my fourth year of not knowing.</span><span class="signm">Ashleigh Ro</span></p>
   </section>
   <section class="stage">
-    <div class="side l"><b>164</b><span>pages</span></div>
     <div class="issues" aria-label="Issue One"><a class="issue" href="/issue-1/" aria-label="Read Issue One"><div class="book"><div class="inner"><div class="cover" id="cv"><iframe src="/issue-1/p/001.html" title="Undiagnosed, Issue One cover" tabindex="-1" scrolling="no"></iframe></div></div></div></a></div>
-    <div class="side r"><b>$0</b><span>free to read</span></div>
+    <div class="pitch">
+      <p class="fine">Nine pages open before it asks you for anything. Then an email, and you get the other 155.</p>
+      <a class="btn" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <p class="sub">It opens in this window, nothing to download.</p>
+      <p class="sub promise">One email when the next issue is out. Nothing else, and one tap stops it.</p>
+    </div>
   </section>
   <section class="cta">
-    <a class="btn" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    <p class="fine">Right here in your browser. No app, no paywall. Your email opens the rest of the issue.</p>
+
+    <div class="inside">
+      <h3>Inside issue one</h3>
+      <ul>
+        <li><em>The tool</em><b>What to hand a doctor who has already decided you&rsquo;re fine</b></li>
+        <li><em>The money</em><b>Where to find help with no diagnosis to bill against</b></li>
+        <li><em>The essay</em><b>The grief that has no funeral</b></li>
+      </ul>
+    </div>
 
     <div class="feats">
-      <h3>Free in the reader</h3>
-      <ul><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Notes</b><small>Write on any page. Saves itself.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 4h16v11l-5 5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 15h-5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Sticky notes</b><small>Stick one on and find it again.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Save to your camera roll</b><small>As a picture you keep.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.7 6.8L8.3 10.7M8.3 13.3l7.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>One-tap sharing</b><small>Send a single page to anyone.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6.5 15.5L15 7l3 3-8.5 8.5H6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Highlighting</b><small>Mark what hit you.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Zoom to read</b><small>Pinch or tap. Made for tired eyes.</small></span></li></ul>
+      <h3>What you can do while you read</h3>
+      <ul><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Notes</b><small>Write on any page. Saves itself.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 4h16v11l-5 5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 15h-5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Sticky notes</b><small>Stick one on and find it again.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Save to your camera roll</b><small>Any page, as a picture.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.7 6.8L8.3 10.7M8.3 13.3l7.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>One-tap sharing</b><small>Send one page on its own.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6.5 15.5L15 7l3 3-8.5 8.5H6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Highlighting</b><small>Mark what hit you.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Zoom to read</b><small>Pinch or tap. Made for tired eyes.</small></span></li></ul>
     </div>
+    <a class="btn btn2" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </section>
 </main>
 <footer><div class="wrap">
-  Want your story in the next issue? DM <a href="https://www.instagram.com/_ashleighro" target="_blank" rel="noopener">@_ashleighro</a> on Instagram. Being featured is free.<br>
-  Curious about the app? <a href="https://undiagnosed-waitlist.vercel.app" target="_blank" rel="noopener">See the whole app for free</a>.<br>
+  Your story can be in the next issue. DM <a href="https://www.instagram.com/_ashleighro" target="_blank" rel="noopener">@_ashleighro</a> on Instagram.<br>
+  Undiagnosed is also an app for keeping your own symptoms, visits, and results in one place. <a class="nw" href="https://undiagnosed-waitlist.vercel.app" target="_blank" rel="noopener">Have a look</a>.<br>
   <span style="color:#6E6E73">© 2026 Velocity Tech Inc. Undiagnosed is not medical advice.</span>
 </div></footer>
 <script>
 (function(){var c=document.getElementById('cv'),f=c.querySelector('iframe');
 function fit(){f.style.transform='scale('+(c.clientWidth/1080)+')'}
-fit();window.addEventListener('resize',fit);})();
+fit();window.addEventListener('resize',fit);
+if(window.ResizeObserver)new ResizeObserver(fit).observe(c);})();
 </script>
 <script>
 (function(){var rot=document.querySelector('.rot');if(!rot)return;
@@ -157,7 +209,8 @@ function fit(){var narrow=innerWidth<900,kids=[].slice.call(rot.children);kids.f
 fit();if(document.fonts){document.fonts.ready.then(fit);document.fonts.load('40px AshHand').then(fit)}addEventListener('load',fit);var ft;addEventListener('resize',function(){clearTimeout(ft);ft=setTimeout(fit,120)});
 })();
 (function(){var w=[].slice.call(document.querySelectorAll('.rot .rw')),i=0;if(w.length<2)return;
-setInterval(function(){if(document.hidden)return;var a=w[i];a.classList.add('out');a.classList.remove('on');i=(i+1)%w.length;var b=w[i];setTimeout(function(){a.classList.remove('out');b.classList.add('on')},260)},2800)})();
+var still=matchMedia('(prefers-reduced-motion: reduce)');
+setInterval(function(){if(document.hidden||still.matches)return;var a=w[i];a.classList.add('out');a.classList.remove('on');i=(i+1)%w.length;var b=w[i];setTimeout(function(){a.classList.remove('out');b.classList.add('on')},260)},5000)})();
 </script>
 </body>
 </html>
