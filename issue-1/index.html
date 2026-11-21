@@ -184,6 +184,8 @@ footer{gap:12px}
 #gate .err{margin:2px 0 0;font:600 14px/1.4 Inter,sans-serif;color:#D70015}
 #gate .sug{appearance:none;align-self:flex-start;border:1.5px solid #0B0B0C;background:#FFFFFF;color:#0B0B0C;border-radius:999px;padding:9px 15px;font:700 14px Inter,sans-serif;cursor:pointer}
 #gate .promise{margin:14px 0 0;font:500 13px/1.5 Inter,sans-serif;color:#6A6A74}
+#gate .gback{display:block;margin:16px auto 0;padding:8px 4px;border:0;background:none;color:#6A6A74;font:600 14px Inter,sans-serif;text-decoration:underline;cursor:pointer}
+#gate .gback:hover{color:#0B0B0C}
 #gate .promise b{color:#0B0B0C;font-weight:700}
 @media (max-width:460px){#gate .card{padding:24px 20px 20px;border-radius:16px}#gate h2{font-size:22px}</style>
 </head>
@@ -262,6 +264,7 @@ footer{gap:12px}
       <button class="go" id="gbtn" type="submit">Open the magazine</button>
     </form>
     <p class="promise"><b>No spam.</b> New issues only, and never your address to anyone else.</p>
+    <button type="button" class="gback" id="gback">Back to the free pages</button>
   </div>
 </div>
 <div id="toast"></div><div id="undo" role="status"><span></span><button type="button">Undo</button></div>
@@ -376,6 +379,23 @@ function closeGate(){
   gate.classList.remove('open'); gate.setAttribute('aria-hidden','true');
   stage.classList.remove('fog');
 }
+// Leaving the gate is not unlocking it. Whoever closes it lands back on the last free view, which is
+// where they were entitled to be, instead of staring at a blurred page they cannot reach or read.
+function leaveGate(){
+  closeGate();
+  if(gated(cur)){ cur=FREE_MAX; render(); markSeg(); }
+  try{ (document.getElementById('fnext')||document.body).focus() }catch(e){}
+}
+document.getElementById('gback').addEventListener('click',leaveGate);
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&gateOpen()){ e.preventDefault(); leaveGate() } },true);
+// Keep tabbing inside the card while it is open, so a keyboard reader cannot wander behind the blur.
+gate.addEventListener('keydown',function(e){
+  if(e.key!=='Tab')return;
+  var f=gate.querySelectorAll('input:not([tabindex="-1"]),button');
+  if(!f.length)return; var a=f[0],z=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}
+  else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}
+});
 gform.addEventListener('submit',function(e){
   e.preventDefault();
   var v=(gmail.value||'').trim();
@@ -384,7 +404,7 @@ gform.addEventListener('submit',function(e){
   gbtn.disabled=true; var label=gbtn.textContent; gbtn.textContent='One moment…';
   function done(){ gbtn.disabled=false; gbtn.textContent=label }
   fetch(BASE.replace(/issue-1\/$/,'')+'api/sub',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({email:v,website:ghoney.value,page:gateWant||cur})})
+    body:JSON.stringify({email:v,website:ghoney.value})})
   .then(function(r){ return r.json().catch(function(){return {}}).then(function(j){ return {ok:r.ok,j:j} }) })
   .then(function(o){
     done();

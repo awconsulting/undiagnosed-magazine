@@ -115,7 +115,6 @@ export default async function handler(req, res) {
     const key = process.env.RESEND_API_KEY;
     if (!key) { console.error('sub: RESEND_API_KEY is not set'); return send(res, 500, { error: 'Could not save that right now. Try again in a minute.' }); }
 
-    const page = Number.isFinite(Number(b.page)) ? Math.max(1, Math.min(999, Math.round(Number(b.page)))) : null;
     const r = await fetch('https://api.resend.com/contacts', {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
@@ -124,7 +123,7 @@ export default async function handler(req, res) {
         unsubscribed: false,
         segmentIds: [SEGMENT_GENERAL],
         topics: [{ id: TOPIC_MAGAZINE, subscription: 'opt_in' }],
-        properties: { source: 'magazine', ...(page ? { gate_page: String(page) } : {}) },
+        properties: { source: 'magazine' },
       }),
       signal: AbortSignal.timeout(8000),
     });
