@@ -131,8 +131,8 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 #sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;flex-direction:column;align-items:center;gap:6px;
   padding:12px max(16px,env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right));
   background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid #E4E4E9;
-  transform:translateY(110%);transition:transform .22s ease;pointer-events:none}
-#sticky.on{transform:translateY(0);pointer-events:auto}
+  transform:translateY(110%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s;pointer-events:none}
+#sticky.on{transform:translateY(0);visibility:visible;transition:transform .22s ease;pointer-events:auto}
 #sticky .btn{margin:0;width:100%;max-width:420px}
 #sticky span{font:600 14px/1.3 Inter,sans-serif;color:#3A3A3C;text-align:center}
 @media (prefers-reduced-motion:reduce){#sticky{transition:none}}
@@ -155,11 +155,11 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
   .optB .side{justify-self:center!important}}
 @media (max-width:899px){.optB .hero,.optB .cta{text-align:center}.optB .rot{justify-items:center}.optB .stage{max-width:440px;margin-left:auto;margin-right:auto;margin-top:24px;gap:20px 24px}
   .optB .side.r{border-left:2px dashed #D70015}}
-@media (max-width:600px){.optB .stage{margin-top:20px}
-  .optB .issues{max-width:252px}
+@media (max-width:600px){.optB .stage{margin-top:12px}
+  .optB .issues{max-width:216px}
   .optB .fine{font-size:16px;max-width:330px;margin-bottom:12px}
   .optB .cta{padding-top:12px}
-  .pitch{margin-top:20px}}
+  .pitch{margin-top:12px}}
 </style>
 </head>
 <body>
@@ -192,7 +192,7 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 
     <div class="feats">
       <h3>What you can do while you read</h3>
-      <ul><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Notes</b><small>Write on any page. Saves itself.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 4h16v11l-5 5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 15h-5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Sticky notes</b><small>Stick one on and find it again.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Save to your camera roll</b></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.7 6.8L8.3 10.7M8.3 13.3l7.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>One-tap sharing</b><small>Send one page on its own.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6.5 15.5L15 7l3 3-8.5 8.5H6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Highlighting</b><small>Mark what hit you.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Zoom to read</b><small>Pinch or tap. Made for tired eyes.</small></span></li></ul>
+      <ul><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Notes</b><small>Write on any page. Saves itself.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 4h16v11l-5 5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 15h-5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Sticky notes</b><small>Stick one on and find it again.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Save to your camera roll</b><small>Keep a page in your photos.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.7 6.8L8.3 10.7M8.3 13.3l7.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>One-tap sharing</b><small>Send one page on its own.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6.5 15.5L15 7l3 3-8.5 8.5H6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Highlighting</b><small>Mark what hit you.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Zoom to read</b><small>Pinch or tap. Made for tired eyes.</small></span></li></ul>
     </div>
     <a class="btn btn2" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </section>
@@ -215,12 +215,20 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
   var watch=[document.querySelector('.pitch .btn'),document.querySelector('.btn2')].filter(Boolean);
   if(!('IntersectionObserver' in window)||!watch.length)return;
   var seen=new WeakMap();
+  // Hysteresis. On a short laptop the hero button is just under the fold at load, so the bar is
+  // correctly up for the first 80px of scroll and correctly down after. Honoured instantly that is a
+  // red bar flashing once before the reader has done anything. A state has to hold for a beat before
+  // the bar acts on it, which leaves the genuine stretches and drops the transients.
+  var pending=null;
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){seen.set(e.target,e.isIntersecting)});
     var any=watch.some(function(n){return seen.get(n)});
-    bar.classList.toggle('on',!any);
-    bar.setAttribute('aria-hidden',any?'true':'false');
-  },{threshold:0});
+    clearTimeout(pending);
+    pending=setTimeout(function(){
+      bar.classList.toggle('on',!any);
+      bar.setAttribute('aria-hidden',any?'true':'false');
+    },280);
+  },{threshold:0,rootMargin:'-64px 0px -120px 0px'});
   watch.forEach(function(n){io.observe(n)});
 })();
 (function(){var c=document.getElementById('cv'),f=c.querySelector('iframe');
