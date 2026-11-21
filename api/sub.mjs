@@ -105,6 +105,9 @@ export default async function handler(req, res) {
     if (JUNK.has(domain) || JUNK_LOCAL.has(local)) return send(res, 400, { error: 'That email does not look right.' });
     if (DISPOSABLE.has(domain)) return send(res, 400, { error: 'That looks like a temporary inbox. Use one you actually read.' });
 
+    // Consent is checked here too, not only in the page: the page can be bypassed, this cannot.
+    if (b.consent !== true) return send(res, 400, { error: 'Tick the box and the rest opens.' });
+
     if (!(await canReceive(domain))) {
       const s = near(domain);
       return send(res, 400, s
@@ -123,7 +126,12 @@ export default async function handler(req, res) {
         unsubscribed: false,
         segmentIds: [SEGMENT_GENERAL],
         topics: [{ id: TOPIC_MAGAZINE, subscription: 'opt_in' }],
-        properties: { source: 'magazine' },
+        // What was agreed and when. Nothing about what they read: gate_page was removed on purpose.
+        properties: {
+          source: 'magazine',
+          consent_at: /^\d{4}-\d{2}-\d{2}T[\d:.]+Z$/.test(String(b.consent_at || '')) ? String(b.consent_at) : new Date().toISOString(),
+          consent_v: /^[a-z0-9-]{1,32}$/.test(String(b.consent_v || '')) ? String(b.consent_v) : 'unknown',
+        },
       }),
       signal: AbortSignal.timeout(8000),
     });

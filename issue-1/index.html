@@ -181,6 +181,18 @@ footer{gap:12px}
 #gate .go:hover{background:#B80012}
 #gate .go[disabled]{opacity:.6;cursor:default}
 #gate .honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+#gate .gok{display:flex;gap:10px;align-items:flex-start;margin:4px 0 2px;cursor:pointer;font:500 14px/1.45 Inter,sans-serif;color:#45454D;text-align:left}
+#gate .gok input{flex:none;width:20px;height:20px;margin:1px 0 0;accent-color:#D70015;cursor:pointer}
+#gate .promise a{color:#45454D}
+#mednote{position:fixed;left:0;right:0;bottom:0;z-index:12;margin:0;padding:7px max(12px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left));background:#F2F2F4;border-top:1px solid #E4E4E9;text-align:center;font:600 12px/1.35 Inter,sans-serif;color:#6A6A74}
+#mednote button{border:0;background:none;padding:0 0 0 2px;font:700 12px Inter,sans-serif;color:#0B0B0C;text-decoration:underline;cursor:pointer}
+#medsheet{position:fixed;inset:0;z-index:41;background:rgba(11,11,12,.55);display:flex;align-items:center;justify-content:center;overflow:auto;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
+#medsheet[hidden]{display:none}
+.ms-card{width:min(520px,100%);margin:auto;background:#FFFFFF;border-radius:18px;padding:28px 26px 22px;box-shadow:0 24px 70px rgba(0,0,0,.35)}
+.ms-card h2{margin:0 0 14px;font:800 21px/1.25 Inter,sans-serif;letter-spacing:-.02em}
+.ms-card p{margin:0 0 13px;font:500 15px/1.55 Inter,sans-serif;color:#2A2A2E}
+.ms-card .ms-links a{color:#0B0B0C;font-weight:700}
+.ms-close{display:block;width:100%;height:46px;margin-top:8px;border:0;border-radius:12px;background:#0B0B0C;color:#FFFFFF;font:700 15px Inter,sans-serif;cursor:pointer}
 #gate .err{margin:2px 0 0;font:600 14px/1.4 Inter,sans-serif;color:#D70015}
 #gate .sug{appearance:none;align-self:flex-start;border:1.5px solid #0B0B0C;background:#FFFFFF;color:#0B0B0C;border-radius:999px;padding:9px 15px;font:700 14px Inter,sans-serif;cursor:pointer}
 #gate .promise{margin:14px 0 0;font:500 13px/1.5 Inter,sans-serif;color:#6A6A74}
@@ -259,14 +271,24 @@ footer{gap:12px}
     <form id="gform" novalidate>
       <input type="email" id="gmail" name="email" placeholder="you@email.com" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" aria-label="Your email" required>
       <input class="honey" type="text" id="ghoney" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Leave this empty">
+      <label class="gok"><input type="checkbox" id="gagree"><span>Email me when a new issue is out. Nothing else.</span></label>
       <p class="err" id="gerr" hidden></p>
       <button class="sug" id="gsug" type="button" hidden></button>
       <button class="go" id="gbtn" type="submit">Open the magazine</button>
     </form>
-    <p class="promise"><b>No spam.</b> New issues only, and never your address to anyone else.</p>
+    <p class="promise"><b>No spam.</b> New issues only, and never your address to anyone else. <a href="/privacy" target="_blank" rel="noopener">Privacy notice</a>.</p>
     <button type="button" class="gback" id="gback">Back to the free pages</button>
   </div>
 </div>
+<p id="mednote">Not medical advice, and not a diagnosis. <button type="button" id="mednoteMore">Read more</button></p>
+<div id="medsheet" hidden><div class="ms-card" role="dialog" aria-modal="true" aria-labelledby="msH">
+  <h2 id="msH">Undiagnosed Magazine is not medical advice</h2>
+  <p>Ashleigh Ro Warren and Velocity Tech are not doctors and do not provide medical care. This magazine is not a diagnosis, it is not a substitute for professional medical advice, diagnosis or treatment, and it does not replace your clinician&rsquo;s exam or judgment.</p>
+  <p>Always seek the advice of your physician or another qualified health provider about any medical question. Never disregard professional medical advice, or delay seeking it, because of something you read here. Anything in these pages about emergencies is general, and it is not about you.</p>
+  <p><b>If you think you may have a medical emergency, call your doctor or 911 now, or your local emergency line if you are not in the United States.</b></p>
+  <p class="ms-links"><a href="/privacy" target="_blank" rel="noopener">Privacy notice</a></p>
+  <button type="button" class="ms-close" id="medsheetClose">Close</button>
+</div></div>
 <div id="toast"></div><div id="undo" role="status"><span></span><button type="button">Undo</button></div>
 <script>
 
@@ -348,7 +370,7 @@ function ui(){
 // The line sits after the first section, which is also a view boundary in both one- and two-page
 // modes, so the gate lands in the same place whichever way the reader is reading.
 var FREE_MAX=9, gateWant=null, gateMem=false;
-var gate=document.getElementById('gate'), gform=document.getElementById('gform'),
+var gate=document.getElementById('gate'), gform=document.getElementById('gform'), gagree=document.getElementById('gagree'),
     gmail=document.getElementById('gmail'), gbtn=document.getElementById('gbtn'),
     gerr=document.getElementById('gerr'), gsug=document.getElementById('gsug'),
     ghoney=document.getElementById('ghoney');
@@ -366,6 +388,15 @@ function showGerr(m,sug){
   gerr.textContent=m; gerr.hidden=false;
   if(sug){ gsug.textContent='Use '+sug; gsug.hidden=false; gsug.dataset.v=sug } else { gsug.hidden=true }
 }
+(function(){
+  var note=document.getElementById('medsheet');
+  var open=function(){note.hidden=false;try{document.getElementById('medsheetClose').focus()}catch(e){}};
+  var shut=function(){note.hidden=true};
+  document.getElementById('mednoteMore').addEventListener('click',open);
+  document.getElementById('medsheetClose').addEventListener('click',shut);
+  note.addEventListener('click',function(e){if(e.target===note)shut()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!note.hidden){e.preventDefault();shut()}},true);
+})();
 gsug.onclick=function(){ gmail.value=this.dataset.v||''; gsug.hidden=true; gerr.hidden=true; gform.requestSubmit?gform.requestSubmit():gbtn.click() };
 function openGate(n){
   if(gateOpen()){ if(n)gateWant=n; return }
@@ -400,11 +431,12 @@ gform.addEventListener('submit',function(e){
   e.preventDefault();
   var v=(gmail.value||'').trim();
   if(!v){ showGerr('Add your email to keep reading.'); return }
+  if(!gagree.checked){ showGerr('Tick the box and the rest opens.'); try{gagree.focus()}catch(e){} return }
   gsug.hidden=true; gerr.hidden=true;
   gbtn.disabled=true; var label=gbtn.textContent; gbtn.textContent='One moment…';
   function done(){ gbtn.disabled=false; gbtn.textContent=label }
   fetch(BASE.replace(/issue-1\/$/,'')+'api/sub',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({email:v,website:ghoney.value})})
+    body:JSON.stringify({email:v,website:ghoney.value,consent:true,consent_at:new Date().toISOString(),consent_v:'mag-2026-11'})})
   .then(function(r){ return r.json().catch(function(){return {}}).then(function(j){ return {ok:r.ok,j:j} }) })
   .then(function(o){
     done();
