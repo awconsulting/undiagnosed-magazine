@@ -185,14 +185,7 @@ footer{gap:12px}
 #gate .sug{appearance:none;align-self:flex-start;border:1.5px solid #0B0B0C;background:#FFFFFF;color:#0B0B0C;border-radius:999px;padding:9px 15px;font:700 14px Inter,sans-serif;cursor:pointer}
 #gate .promise{margin:14px 0 0;font:500 13px/1.5 Inter,sans-serif;color:#6A6A74}
 #gate .promise b{color:#0B0B0C;font-weight:700}
-#gate .extras{margin:22px 0 0;padding:20px 0 0;border-top:1px solid #E4E4E9}
-#gate .extras h3{margin:0 0 14px;font:800 11px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6A6A74}
-#gate .extras ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
-#gate .extras li{display:flex;gap:11px;align-items:flex-start;font:600 14px/1.35 Inter,sans-serif;color:#0B0B0C;min-width:0}
-#gate .extras .ic{flex:none;width:30px;height:30px;border-radius:9px;background:#FDECEE;display:flex;align-items:center;justify-content:center;color:#D70015}
-#gate .extras small{display:block;font:500 12.5px/1.35 Inter,sans-serif;color:#6A6A74;margin-top:2px}
-@media (max-width:460px){#gate .card{padding:24px 20px 20px;border-radius:16px}#gate h2{font-size:22px}#gate .extras ul{grid-template-columns:1fr}}
-</style>
+@media (max-width:460px){#gate .card{padding:24px 20px 20px;border-radius:16px}#gate h2{font-size:22px}</style>
 </head>
 <body>
 <header>
@@ -260,7 +253,7 @@ footer{gap:12px}
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="gateH">
     <p class="eyebrow">Keep reading &middot; free</p>
     <h2 id="gateH">The rest of the issue is yours.</h2>
-    <p class="lede">Add your email and it opens right here, on this page. No download, no code to wait for, nothing to confirm. All 164 pages, free.</p>
+    <p class="lede">Add your email and the next 155 pages open right here. Nothing to confirm.</p>
     <form id="gform" novalidate>
       <input type="email" id="gmail" name="email" placeholder="you@email.com" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" aria-label="Your email" required>
       <input class="honey" type="text" id="ghoney" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Leave this empty">
@@ -268,18 +261,7 @@ footer{gap:12px}
       <button class="sug" id="gsug" type="button" hidden></button>
       <button class="go" id="gbtn" type="submit">Open the magazine</button>
     </form>
-    <p class="promise"><b>No spam. Ever.</b> You&rsquo;ll hear from us when a new issue lands, and once in a while a note worth reading. That&rsquo;s it. One click unsubscribes you, and we never sell or share your address.</p>
-    <div class="extras">
-      <h3>Free in the reader, once you&rsquo;re in</h3>
-      <ul>
-        <li><span class="ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Notes<small>Write on any page. They save by themselves.</small></span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M4 4h16v11l-5 5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 15h-5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span>Sticky notes<small>Stick one on a page and find it again.</small></span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Save to your camera roll<small>Any page, saved as a picture you keep.</small></span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.7 6.8L8.3 10.7M8.3 13.3l7.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>One-tap sharing<small>Send a single page to anyone, by link.</small></span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6.5 15.5L15 7l3 3-8.5 8.5H6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span>Highlighting<small>Mark the lines that said the thing.</small></span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Zoom to read<small>Pinch or tap. Made for tired eyes.</small></span></li>
-      </ul>
-    </div>
+    <p class="promise"><b>No spam.</b> New issues only, and never your address to anyone else.</p>
   </div>
 </div>
 <div id="toast"></div><div id="undo" role="status"><span></span><button type="button">Undo</button></div>

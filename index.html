@@ -96,6 +96,15 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
 .optB .side b{font-size:clamp(48px,5vw,80px);font-weight:900;letter-spacing:-.04em;line-height:1}
 .optB .side span{font-family:AshHand,cursive;font-size:clamp(20px,1.8vw,28px);color:#D70015}
 .optB .side.l{justify-self:end}.optB .side.r{justify-self:start}
+.feats{margin:52px auto 0;max-width:880px;text-align:left}
+.feats h3{margin:0 0 20px;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#6E6E73;text-align:center}
+.feats ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 26px}
+.feats li{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.feats .ic{flex:none;width:34px;height:34px;border-radius:10px;background:#FDECEE;display:flex;align-items:center;justify-content:center;color:#D70015}
+.feats b{display:block;font-weight:800;font-size:16px;color:#0B0B0C;letter-spacing:-.01em}
+.feats small{display:block;margin-top:3px;font-weight:500;font-size:14px;line-height:1.4;color:#6E6E73}
+@media (max-width:899px){.feats{margin-top:44px}.feats ul{grid-template-columns:1fr 1fr;gap:20px}}
+@media (max-width:560px){.feats ul{grid-template-columns:1fr}}
 .optB .cta{padding:28px 0 80px}
 .optB .btn{margin-top:0;height:64px;padding:0 38px;font-size:20px}
 .optB .fine{margin:16px 0 0;font-size:16px;font-weight:600;color:#6E6E73}
@@ -121,7 +130,12 @@ footer a{color:#D70015;font-weight:700;text-underline-offset:4px}
   </section>
   <section class="cta">
     <a class="btn" href="/issue-1/">Read Issue One<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    <p class="fine">Right here in your browser. No download, no app, no paywall. Start reading free; your email opens the rest of the issue.</p>
+    <p class="fine">Right here in your browser. No app, no paywall. Your email opens the rest of the issue.</p>
+
+    <div class="feats">
+      <h3>Free in the reader</h3>
+      <ul><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Notes</b><small>Write on any page. Saves itself.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 4h16v11l-5 5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 15h-5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Sticky notes</b><small>Stick one on and find it again.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Save to your camera roll</b><small>As a picture you keep.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.7 6.8L8.3 10.7M8.3 13.3l7.4 3.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>One-tap sharing</b><small>Send a single page to anyone.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M6.5 15.5L15 7l3 3-8.5 8.5H6.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><b>Highlighting</b><small>Mark what hit you.</small></span></li><li><span class="ic" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21M7.5 10.5h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><b>Zoom to read</b><small>Pinch or tap. Made for tired eyes.</small></span></li></ul>
+    </div>
   </section>
 </main>
 <footer><div class="wrap">
